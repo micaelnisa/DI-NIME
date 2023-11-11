@@ -1,9 +1,19 @@
 let botaoCirculos = [];
 let canvas;
 
+//SONS
+let melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
+
+//PRELOAD
+function preload() {
+  soundFormats('mp3');
+  melodia1 = loadSound("../som/Melodia_1.mp3")
+}
+
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
+  melodia1.play();
   botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 50, 2, 0, PI);
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 50, 2, PI, 0);
   botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 50, 2, -PI, 0);
