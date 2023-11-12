@@ -40,7 +40,6 @@
        graves_button.display();
 
        sair.display();
-       jogar.display();
      }  else if (gameState === "jogar") {
         for (let i = 1; i < botaoCirculos.length; i++) {
             botaoCirculos[i].display();
