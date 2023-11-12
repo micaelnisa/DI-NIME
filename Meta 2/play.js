@@ -39,6 +39,7 @@ function draw() {
     apitos_button.display();
     graves_button.display();
 
+    jogar.display();
     sair.display();
   }  else if (gameState === "jogar") {
      for (let i = 1; i < botaoCirculos.length; i++) {
