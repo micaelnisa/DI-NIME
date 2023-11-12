@@ -61,7 +61,8 @@ function touchStarted() {
         gameState = "iniciar";
       } else if (gameState === "iniciar" && sair.contains(x, y)) {
         gameState = "play";
-      } else if (gameState === "iniciar" && jogar.contains(x, y)) {
+        //selecionar todos os botões ao mesmo tempo
+      } else if (gameState === "iniciar" && melodia_button.contains(x, y) && percursao_button.contains(x, y) && apitos_button.contains(x, y) && graves_button.contains(x, y)) {
         gameState = "jogar";
       } else if (gameState === "jogar" && sair.contains(x, y)) {
         gameState = "play";
