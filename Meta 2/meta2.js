@@ -92,5 +92,4 @@ class SeletorCirculos {
   mudarCor() {
     this.cor = color(255, 250, 0);
   }
-}   
-
+}
