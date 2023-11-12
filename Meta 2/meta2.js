@@ -39,6 +39,9 @@ function preload() {
 }
 
 function setup() {
+  melodia1.play();
+  perc1.play();
+  baixo1.play();
 
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
@@ -73,9 +76,6 @@ function touchStarted() {
 }
 
 function mousePressed() {
-  melodia1.play();
-  perc1.play();
-  baixo1.play();
 }
 
 class BotaoCirculos {
