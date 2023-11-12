@@ -49,25 +49,24 @@
      }
    }
    
-   //alterar depois para touch
-   function mousePressed() {
-     if (gameState === "play" && playButton.contains(mouseX, mouseY)) {
-        //aqui ao carregar no play o gamestate fica diferente
-       gameState = "iniciar";
-     } else if(gameState === "iniciar" && sair.contains(mouseX, mouseY)){
-        gameState = "play";
-    } else if(gameState === "iniciar" && jogar.contains(mouseX, mouseY)){
-        gameState = "jogar";
-    }else if(gameState === "jogar" && sair.contains(mouseX, mouseY)){
-            gameState = "play";
-        sair.display();
-   }
-}
 
 function touchStarted() {
+
+
     for (let j = 0; j < touches.length; j++) {
       let x = touches[j].x;
       let y = touches[j].y;
+
+      if (gameState === "play" && playButton.contains(x, y)) {
+        gameState = "iniciar";
+      } else if (gameState === "iniciar" && sair.contains(x, y)) {
+        gameState = "play";
+      } else if (gameState === "iniciar" && jogar.contains(x, y)) {
+        gameState = "jogar";
+      } else if (gameState === "jogar" && sair.contains(x, y)) {
+        gameState = "play";
+        sair.display(); // Mantenha essa linha para exibir o botão ao voltar para o estado "play"
+      }
   
       for (let i = 1; i < botaoCirculos.length; i++) {
         botaoCirculos[i].verificarToque(x, y);
