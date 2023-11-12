@@ -8,7 +8,6 @@ function preload() {
     //SOM
 
     //MELODIAS
-    console.log("Carregando Melodia_1.mp3");
     melodia1 = loadSound("som/Melodia_1.mp3");
     melodia2 = loadSound("som/Melodia_2.mp3");
     melodia3 = loadSound("som/Melodia_3.mp3");
@@ -40,6 +39,8 @@ function preload() {
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
+  melodia1.play();
+
   botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 50, 2, 0, PI);
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 50, 2, PI, 0);
   botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 50, 2, -PI, 0);
