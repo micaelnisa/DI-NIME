@@ -39,12 +39,11 @@ function preload() {
 }
 
 function setup() {
-  melodia1.play();
-  perc1.play();
-  baixo1.play();
 
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
+
+  melodia1.play();
 
   //SOM
   slider = createSlider(0, 1, 0.5, 0.01);
