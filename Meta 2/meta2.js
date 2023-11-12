@@ -7,9 +7,9 @@ var slider;
 
 function preload() {
     //SOM
+    soundFormats('mp3');
 
     //MELODIAS
-    console.log("Carregando Melodia_1.mp3");
     melodia1 = loadSound("som/Melodia_1.mp3");
     melodia2 = loadSound("som/Melodia_2.mp3");
     melodia3 = loadSound("som/Melodia_3.mp3");
@@ -36,17 +36,15 @@ function preload() {
     apito3 = loadSound("som/Apito_3.mp3");
     apito4 = loadSound("som/Apito_4.mp3");
     apito5 = loadSound("som/Apito_5.mp3");
+
 }
 
 function setup() {
-
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
 
-  melodia1.play();
 
-  //SOM
-  slider = createSlider(0, 1, 0.5, 0.01);
+  /*slider = createSlider(0, 1, 0.5, 0.01);*/
 
   botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 50, 2, 0, PI);
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 50, 2, PI, 0);
@@ -55,7 +53,7 @@ function setup() {
 }
 
 function draw() {
-  melodia1.setVolume(slider.value());
+  /*melodia1.setVolume(slider.value());*/
 
   /*background(50);*/
   for (let i = 1; i < botaoCirculos.length; i++) {
@@ -75,6 +73,7 @@ function touchStarted() {
 }
 
 function mousePressed() {
+  melodia1.play();
 }
 
 class BotaoCirculos {
