@@ -50,6 +50,7 @@ function draw() {
 }
 
 
+
 function touchStarted() {
 
 
@@ -64,6 +65,8 @@ function touchStarted() {
      //selecionar todos os botões ao mesmo tempo
    } else if (gameState === "iniciar" && melodia_button.contains(x, y) && percursao_button.contains(x, y) && apitos_button.contains(x, y) && graves_button.contains(x, y)) {
      gameState = "jogar";
+    } else if (gameState === "iniciar" && jogar.contains(x, y)) {
+      gameState = "jogar";
    } else if (gameState === "jogar" && sair.contains(x, y)) {
      gameState = "play";
      sair.display(); // Mantenha essa linha para exibir o botão ao voltar para o estado "play"
