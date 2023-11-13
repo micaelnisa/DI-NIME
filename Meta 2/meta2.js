@@ -38,7 +38,7 @@ function preload() {
 
 
      // Add all sounds to the array
-     allSounds = [melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5];
+     allSounds = [melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5];
 
      // Set volume to 0 for all sounds
      allSounds.forEach(sound => {
@@ -57,7 +57,7 @@ function setup() {
 
   let playButton = createButton('Play');
     playButton.position(10, 10);
-    playButton.mousePressed(play);
+    playButton.mousePressed(playInitial);
     
 // Adiciona botões para Melodia, Baixo, Percussão e Apito
 createToggleButton('Melodia 1', melodia1, 1);
@@ -78,23 +78,52 @@ createToggleButton('Percussão 3', perc3, 13);
 createToggleButton('Percussão 4', perc4, 14);
 createToggleButton('Percussão 5', perc5, 15);
 
-createToggleButton('Apito 1', apito1, 16);
-createToggleButton('Apito 2', apito2, 17);
-createToggleButton('Apito 3', apito3, 18);
-createToggleButton('Apito 4', apito4, 19);
-createToggleButton('Apito 5', apito5, 20);
+createPlayButton('Apito 1', apito1, playApito.bind(null, apito1));
+createPlayButton('Apito 2', apito2, playApito.bind(null, apito2));
+createPlayButton('Apito 3', apito3, playApito.bind(null, apito3));
+createPlayButton('Apito 4', apito4, playApito.bind(null, apito4));
+createPlayButton('Apito 5', apito5, playApito.bind(null, apito5));
 }
 
+
 function createToggleButton(label, sound, index) {
-let button = createButton(label);
-let verticalPosition = 50 + index * 40;
-button.position(10, verticalPosition);
-button.mousePressed(() => toggleVolume(sound));
+  let button = createButton(label);
+  let verticalPosition = 50 + index * 40;
+  button.position(10, verticalPosition);
+  button.mousePressed(() => toggleVolume(sound));
+}
+
+function createPlayButton(label, sound) {
+  let button = createButton(label);
+  let verticalPosition = 50 + botaoCirculos.length * 40;
+  button.position(10, verticalPosition);
+  button.mousePressed(() => playSound(sound)); // Alteração aqui
 }
 
 function toggleVolume(sound) {
-// Alterna o volume entre 0 e 1
-sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
+  // Alterna o volume entre 0 e 1
+  sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
+}
+
+function playSound(sound) {
+  if (sound.isPlaying()) {
+    sound.stop();
+  } else {}
+  sound.play();
+}
+
+function playInitial() {
+  // Play todos os sons, exceto apitos
+  allSounds.forEach(sound => {
+    if (!isApito(sound)) {
+      sound.play();
+    }
+  });
+}
+
+function isApito(sound) {
+  // Verifica se o som é um apito
+  return [apito1, apito2, apito3, apito4, apito5].includes(sound);
 }
 
 function draw() {
@@ -104,12 +133,6 @@ function draw() {
   }
 }
 
-function play() {
-  // Play all sounds
-  allSounds.forEach(sound => {
-      sound.play();
-  });
-}
 
 function touchStarted() {
   for (let j = 0; j < touches.length; j++) {
