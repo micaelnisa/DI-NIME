@@ -84,8 +84,11 @@ function setup() {
     playButton.position(windowWidth/2, windowHeight/2);
     playButton.mousePressed(play);
 
-    playbackSpeedSlider = createSlider(0.5, 2, 1, 0.1); // Mínimo, máximo, valor inicial, passo
-  playbackSpeedSlider.position(windowWidth/2-50, windowHeight/2-100);
+  // Crie o slider de velocidade de reprodução aqui, mas inicialmente o mantenha invisível
+  playbackSpeedSlider = createSlider(0.5, 1.5, 1, 0.1);
+  playbackSpeedSlider.position(width/2, height/2);
+  playbackSpeedSlider.style('width', '80px');
+  playbackSpeedSlider.hide();
   
 }
 
@@ -176,8 +179,10 @@ function draw() {
 
   if (gameState === "play" || gameState === "iniciar") {
     playButton.hide();
+    playbackSpeedSlider.hide();
   } else {
     playButton.show();
+    playbackSpeedSlider.show();
   }
 
   const playbackSpeed = playbackSpeedSlider.value();
