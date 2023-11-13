@@ -39,7 +39,6 @@ function preload() {
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
-  melodia1.play();
 
   botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 50, 2, 0, PI);
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 50, 2, PI, 0);
@@ -129,4 +128,8 @@ class SeletorCirculos {
   mudarCor() {
     this.cor = color(255, 250, 0);
   }
+}
+
+function mousePressed() {
+  melodia1.play();
 }
