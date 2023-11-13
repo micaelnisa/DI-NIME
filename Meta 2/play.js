@@ -86,7 +86,7 @@ function setup() {
 
   // Crie o slider de velocidade de reprodução aqui, mas inicialmente o mantenha invisível
   playbackSpeedSlider = createSlider(0.5, 1.5, 1, 0.1);
-  playbackSpeedSlider.position(width/2, height/2);
+  playbackSpeedSlider.position(windowWidth/2, (windowHeight/2 - 100));
   playbackSpeedSlider.style('width', '80px');
   playbackSpeedSlider.hide();
   
