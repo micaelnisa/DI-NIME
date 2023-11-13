@@ -9,6 +9,7 @@ let corMelodia, corPercursão, corApitos, corGraves;
 let playButton; 
 var melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
 let allSounds = [];
+let playbackSpeedSlider;
 
 function preload() {
     //SOM
@@ -82,6 +83,9 @@ function setup() {
     playButton = createButton('Play');
     playButton.position(10, 10);
     playButton.mousePressed(play);
+
+    playbackSpeedSlider = createSlider(0.5, 2, 1, 0.1); // Mínimo, máximo, valor inicial, passo
+  playbackSpeedSlider.position(100, 40);
   
 }
 
@@ -157,6 +161,11 @@ function draw() {
   } else {
     playButton.show();
   }
+
+  const playbackSpeed = playbackSpeedSlider.value();
+  allSounds.forEach(sound => {
+    sound.rate(playbackSpeed);
+  });
 }
 
 let isMuted = false;
