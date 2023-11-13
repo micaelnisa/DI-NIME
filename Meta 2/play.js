@@ -159,12 +159,32 @@ function draw() {
   }
 }
 
+let isMuted = false;
+
 function play() {
-  // Play all sounds
-  allSounds.forEach(sound => {
+  if (!isMuted) {
+    // Se não estiver silenciado, toca todos os sons
+    allSounds.forEach(sound => {
       sound.play();
-  });
+    });
+    isMuted = true;
+  } else {
+    // Se estiver silenciado, ajusta o volume dos sons que estão tocando
+    allSounds.forEach(sound => {
+      if (sound.isPlaying() && sound.getVolume() > 0) {
+        // Se o som estiver tocando e o volume for maior que 0, define o volume para 0
+        sound.setVolume(0);
+      } else {
+        // Caso contrário, retorna ao volume anterior
+        sound.setVolume(sound.amp);
+      }
+    });
+    isMuted = false;
+  }
 }
+
+
+
 
 
 function touchStarted() {
