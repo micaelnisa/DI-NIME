@@ -3,6 +3,7 @@ let canvas;
 
 //SONS
 var melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
+let allSounds = [];
 
 function preload() {
     //SOM
@@ -34,6 +35,15 @@ function preload() {
     apito3 = loadSound("som/Apito_3.mp3");
     apito4 = loadSound("som/Apito_4.mp3");
     apito5 = loadSound("som/Apito_5.mp3");
+
+
+     // Add all sounds to the array
+     allSounds = [melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5];
+
+     // Set volume to 0 for all sounds
+     allSounds.forEach(sound => {
+         sound.setVolume(0);
+     });
 }
 
 function setup() {
@@ -44,6 +54,47 @@ function setup() {
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 50, 2, PI, 0);
   botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 50, 2, -PI, 0);
   botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 50, 2, 0, -PI);
+
+  let playButton = createButton('Play');
+    playButton.position(10, 10);
+    playButton.mousePressed(play);
+    
+// Adiciona botões para Melodia, Baixo, Percussão e Apito
+createToggleButton('Melodia 1', melodia1, 1);
+createToggleButton('Melodia 2', melodia2, 2);
+createToggleButton('Melodia 3', melodia3, 3);
+createToggleButton('Melodia 4', melodia4, 4);
+createToggleButton('Melodia 5', melodia5, 5);
+
+createToggleButton('Baixo 1', baixo1, 6);
+createToggleButton('Baixo 2', baixo2, 7);
+createToggleButton('Baixo 3', baixo3, 8);
+createToggleButton('Baixo 4', baixo4, 9);
+createToggleButton('Baixo 5', baixo5, 10);
+
+createToggleButton('Percussão 1', perc1, 11);
+createToggleButton('Percussão 2', perc2, 12);
+createToggleButton('Percussão 3', perc3, 13);
+createToggleButton('Percussão 4', perc4, 14);
+createToggleButton('Percussão 5', perc5, 15);
+
+createToggleButton('Apito 1', apito1, 16);
+createToggleButton('Apito 2', apito2, 17);
+createToggleButton('Apito 3', apito3, 18);
+createToggleButton('Apito 4', apito4, 19);
+createToggleButton('Apito 5', apito5, 20);
+}
+
+function createToggleButton(label, sound, index) {
+let button = createButton(label);
+let verticalPosition = 50 + index * 40;
+button.position(10, verticalPosition);
+button.mousePressed(() => toggleVolume(sound));
+}
+
+function toggleVolume(sound) {
+// Alterna o volume entre 0 e 1
+sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
 }
 
 function draw() {
@@ -51,6 +102,13 @@ function draw() {
   for (let i = 1; i < botaoCirculos.length; i++) {
     botaoCirculos[i].display();
   }
+}
+
+function play() {
+  // Play all sounds
+  allSounds.forEach(sound => {
+      sound.play();
+  });
 }
 
 function touchStarted() {
@@ -131,5 +189,4 @@ class SeletorCirculos {
 }
 
 function mousePressed() {
-  melodia1.play();
 }
