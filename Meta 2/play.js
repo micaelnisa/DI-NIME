@@ -76,6 +76,11 @@ function touchStarted() {
       percursaoTocado = percursaoTocado || percursao_button.verificarToque(x, y);
       apitosTocado = apitosTocado || apitos_button.verificarToque(x, y);
       gravesTocado = gravesTocado || graves_button.verificarToque(x, y);
+
+        // Verifica se todas as bolas estão a ser tocadas antes de ir para a gameState "jogar"
+        if (gameState === "iniciar" && melodiaTocado && percursaoTocado && apitosTocado && gravesTocado && touches.length === 5) {
+        gameState = "jogar";
+        }
     } else if (gameState === "jogar" && sair.contains(x, y)) {
       gameState = "play";
     }
@@ -85,10 +90,7 @@ function touchStarted() {
     }
   }
 
-  // Verifica se todas as bolas estão sendo tocadas antes de ir para a gameState "jogar"
-  if (gameState === "iniciar" && melodiaTocado && percursaoTocado && apitosTocado && gravesTocado && touches.length === 4) {
-    gameState = "jogar";
-  }
+
 }
 
 
