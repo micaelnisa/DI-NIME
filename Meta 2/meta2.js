@@ -49,8 +49,8 @@ function preload() {
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
-  
-  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 50, 2, 0, PI, );
+
+  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 50, 2, 0, PI);
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 50, 2, PI, 0);
   botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 50, 2, -PI, 0);
   botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 50, 2, 0, -PI);
@@ -146,7 +146,7 @@ function touchStarted() {
 }
 
 class BotaoCirculos {
-  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, cor) {
+  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim) {
     this.x = x;
     this.y = y;
     this.angSeletoresInicio = angSeletoresInicio;
@@ -154,7 +154,6 @@ class BotaoCirculos {
     this.diametroCentral = diametroCentral;
     this.numCirculosSatelites = numCirculosSatelites;
     this.circulosSatelites = [];
-    this.cor=cor;
 
     for (let i = 0; i < numCirculosSatelites; i++) {
       let angulo = map(i, 0, numCirculosSatelites, angSeletoresInicio, angSeletoresFim);
@@ -166,8 +165,7 @@ class BotaoCirculos {
   }
 
   display() {
-    noStroke();
-    fill(cor);
+    fill(0, 128, 255);
     ellipse(this.x, this.y, this.diametroCentral, this.diametroCentral);
 
     for (let i = 0; i < this.numCirculosSatelites; i++) {
