@@ -57,9 +57,42 @@ function draw() {
   }
 }
 
-
-
 function touchStarted() {
+  let melodiaTocado = false;
+  let percursaoTocado = false;
+  let apitosTocado = false;
+  let gravesTocado = false;
+
+  for (let j = 0; j < touches.length; j++) {
+    let x = touches[j].x;
+    let y = touches[j].y;
+
+    if (gameState === "play" && playButton.contains(x, y)) {
+      gameState = "iniciar";
+    } else if (gameState === "iniciar" && sair.contains(x, y)) {
+      gameState = "play";
+    } else if (gameState === "iniciar") {
+      melodiaTocado = melodiaTocado || melodia_button.verificarToque(x, y);
+      percursaoTocado = percursaoTocado || percursao_button.verificarToque(x, y);
+      apitosTocado = apitosTocado || apitos_button.verificarToque(x, y);
+      gravesTocado = gravesTocado || graves_button.verificarToque(x, y);
+    } else if (gameState === "jogar" && sair.contains(x, y)) {
+      gameState = "play";
+    }
+
+    for (let i = 1; i < botaoCirculos.length; i++) {
+      botaoCirculos[i].verificarToque(x, y);
+    }
+  }
+
+  // Verifica se todas as bolas estão sendo tocadas antes de ir para a gameState "jogar"
+  if (gameState === "iniciar" && melodiaTocado && percursaoTocado && apitosTocado && gravesTocado && touches.length === 4) {
+    gameState = "jogar";
+  }
+}
+
+
+/*function touchStarted() {
 
 
   for (let j = 0; j < touches.length; j++) {
@@ -111,7 +144,7 @@ function touchStarted() {
       botaoCirculos[i].verificarToque(x, y);
     }
   }
-}
+}*/
 
 function touchEnded() {
   for (let j = 0; j < touches.length; j++) {
