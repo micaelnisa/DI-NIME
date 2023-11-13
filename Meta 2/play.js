@@ -191,11 +191,67 @@ function draw() {
   });
 }
 
+let isMuted = false;
+
 function play() {
-  // Play all sounds
-  allSounds.forEach(sound => {
+  if (!isMuted) {
+    // Se não estiver silenciado, toca todos os sons
+    allSounds.forEach(sound => {
       sound.play();
-  });
+    });
+    isMuted = true;
+  } else {
+    // Se estiver silenciado, ajusta o volume dos sons que estão tocando
+    allSounds.forEach(sound => {
+      if (sound.isPlaying() && sound.getVolume() > 0) {
+        // Se o som estiver tocando e o volume for maior que 0, define o volume para 0
+        sound.setVolume(0);
+      } else {
+        // Caso contrário, retorna ao volume anterior
+        sound.setVolume(sound.amp);
+      }
+    });
+    isMuted = false;
+  }
+}
+
+
+
+
+
+function touchStarted() {
+
+  for (let j = 0; j < touches.length; j++) {
+    let x = touches[j].x;
+    let y = touches[j].y;
+
+    if (gameState === "play" && inicioButton.contains(x, y)) {
+      gameState = "iniciar";
+    } else if (gameState === "iniciar" && sair.contains(x, y)) {
+      gameState = "play";
+    } else if (gameState === "iniciar") {
+      melodia_button.verificarToque(x, y);
+      percursao_button.verificarToque(x, y);
+      apitos_button.verificarToque(x, y);
+      graves_button.verificarToque(x, y);
+
+      // Verifica se todos os botões estão selecionados no iniciar
+      if (
+        melodia_button.selecionada &&
+        percursao_button.selecionada &&
+        apitos_button.selecionada &&
+        graves_button.selecionada
+      ) {
+        gameState = "jogar";
+      }
+    } else if (gameState === "jogar" && sair.contains(x, y)) {
+      gameState = "play";
+    }
+
+    for (let i = 1; i < botaoCirculos.length; i++) {
+      botaoCirculos[i].verificarToque(x, y);
+    }
+  }
 }
 
 
