@@ -94,59 +94,6 @@ function touchStarted() {
 }
 
 
-/*function touchStarted() {
-
-
-  for (let j = 0; j < touches.length; j++) {
-    let x = touches[j].x;
-    let y = touches[j].y;
-
-    if (gameState === "play" && playButton.contains(x, y)) {
-      gameState = "iniciar";
-    } else if (gameState === "iniciar" && sair.contains(x, y)) {
-      gameState = "play";
-    } else if (gameState === "iniciar") {
-      melodia_button.verificarToque(x, y);
-      percursao_button.verificarToque(x, y);
-      apitos_button.verificarToque(x, y);
-      graves_button.verificarToque(x, y);
-
-      // Adiciona verificação para manter a seleção
-      if (melodia_button.selecionada) {
-        percursao_button.selecionar();
-        apitos_button.selecionar();
-        graves_button.selecionar();
-      } else if (percursao_button.selecionada) {
-        melodia_button.selecionar();
-        apitos_button.selecionar();
-        graves_button.selecionar();
-      } else if (apitos_button.selecionada) {
-        melodia_button.selecionar();
-        percursao_button.selecionar();
-        graves_button.selecionar();
-      } else if (graves_button.selecionada) {
-        melodia_button.selecionar();
-        percursao_button.selecionar();
-        apitos_button.selecionar();
-      }
-
-      if (
-        melodia_button.selecionada &&
-        percursao_button.selecionada &&
-        apitos_button.selecionada &&
-        graves_button.selecionada
-      ) {
-        gameState = "jogar";
-      }
-    } else if (gameState === "jogar" && sair.contains(x, y)) {
-      gameState = "play";
-    }
-
-    for (let i = 1; i < botaoCirculos.length; i++) {
-      botaoCirculos[i].verificarToque(x, y);
-    }
-  }
-}*/
 
 function touchEnded() {
   for (let j = 0; j < touches.length; j++) {
