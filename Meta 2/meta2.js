@@ -99,8 +99,13 @@ function createToggleButton(label, sound, index) {
 }
 
 function toggleVolume(sound) {
-// Alterna o volume entre 0 e 1
-sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
+  // Set volume to 0 for all sounds
+  allSounds.forEach(s => {
+    s.setVolume(0);
+  });
+
+  // Set volume to 1 for the selected sound
+  sound.setVolume(1);
 }
 
 function draw() {
@@ -111,8 +116,10 @@ function draw() {
 }
 
 function play() {
-  // Play all sounds
-      sound.play();
+  // Set volume to 1 for all sounds
+  allSounds.forEach(sound => {
+    sound.setVolume(0);
+  });
 }
 
 function touchStarted() {
