@@ -62,14 +62,23 @@ function touchStarted() {
      gameState = "iniciar";
    } else if (gameState === "iniciar" && sair.contains(x, y)) {
      gameState = "play";
-     //selecionar todos os botões ao mesmo tempo
-   } else if (gameState === "iniciar" && melodia_button.contains(x, y) && percursao_button.contains(x, y) && apitos_button.contains(x, y) && graves_button.contains(x, y)) {
-     gameState = "jogar";
-    } else if (gameState === "iniciar" && jogar.contains(x, y)) {
-      gameState = "jogar";
+    } else if (gameState === "iniciar") {
+      melodia_button.verificarToque(x, y);
+      percursao_button.verificarToque(x, y);
+      apitos_button.verificarToque(x, y);
+      graves_button.verificarToque(x, y);
+
+      // Verifica se todos os botões estão selecionados
+      if (
+        melodia_button.selecionada &&
+        percursao_button.selecionada &&
+        apitos_button.selecionada &&
+        graves_button.selecionada
+      ) {
+        gameState = "jogar";
+      }
    } else if (gameState === "jogar" && sair.contains(x, y)) {
      gameState = "play";
-     sair.display(); // Mantenha essa linha para exibir o botão ao voltar para o estado "play"
    }
 
    for (let i = 1; i < botaoCirculos.length; i++) {
@@ -78,25 +87,53 @@ function touchStarted() {
  }
 }
 
+function touchEnded() {
+  // Redefine o estado de seleção quando não há toque
+  melodia_button.selecionada = false;
+  percursao_button.selecionada = false;
+  apitos_button.selecionada = false;
+  graves_button.selecionada = false;
+}
+
+
 class BotaoRedondo {
   constructor(x, y, diametro, cor) {
     this.x = x;
     this.y = y;
     this.diametro = diametro;
     this.cor = cor;
+    this.selecionada = false;
   }
 
   display() {
     fill(this.cor);
     noStroke();
     ellipse(this.x, this.y, this.diametro, this.diametro);
+
+        // Adiciona um indicador visual quando o botão está selecionado
+        if (this.selecionada) {
+          fill(255, 0, 0, 100);
+          ellipse(this.x, this.y, this.diametro, this.diametro);
+        }
   }
 
   contains(px, py) {
     let d = dist(px, py, this.x, this.y);
     return d < this.diametro / 2;
   }
+
+  selecionar() {
+    this.selecionada = !this.selecionada;
+  }
+
+  verificarToque(x, y) {
+    if (this.contains(x, y)) {
+      this.selecionar();
+    }
+  }
 }
+
+
 
 class BotaoCirculos {
  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim) {
