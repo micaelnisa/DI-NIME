@@ -105,6 +105,31 @@ function touchStarted() {
  }
 }
 
+function touchEnded() {
+  for (let j = 0; j < touches.length; j++) {
+    let x = touches[j].x;
+    let y = touches[j].y;
+
+    // Desseleciona os botões quando o toque é removido
+    if (!touches.find((touch) => melodia_button.contains(touch.x, touch.y))) {
+      melodia_button.nao_selecionada();
+    }
+
+    if (!touches.find((touch) => percursao_button.contains(touch.x, touch.y))) {
+      percursao_button.nao_selecionada();
+    }
+
+    if (!touches.find((touch) => apitos_button.contains(touch.x, touch.y))) {
+      apitos_button.nao_selecionada();
+    }
+
+    if (!touches.find((touch) => graves_button.contains(touch.x, touch.y))) {
+      graves_button.nao_selecionada();
+    }
+
+  }
+}
+
 
 
 
@@ -138,7 +163,7 @@ class BotaoRedondo {
     this.selecionada = !this.selecionada;
   }
 
-  nao_selecionar() {
+  nao_selecionada() {
     this.selecionada = false;
   }
 
