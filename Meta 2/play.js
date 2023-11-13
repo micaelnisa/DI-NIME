@@ -81,11 +81,11 @@ function setup() {
   botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 2, 0, -PI, corPercursão);
 
     playButton = createButton('Play');
-    playButton.position(10, 10);
+    playButton.position(windowWidth/2, windowHeight/2);
     playButton.mousePressed(play);
 
     playbackSpeedSlider = createSlider(0.5, 2, 1, 0.1); // Mínimo, máximo, valor inicial, passo
-  playbackSpeedSlider.position(100, 40);
+  playbackSpeedSlider.position(windowWidth/2-50, windowHeight/2-100);
   
 }
 
@@ -97,7 +97,25 @@ function playApito(apitoNumber) {
 // Função para criar botões de alternância
 function createToggleButton(label, sound, index) {
   let button = createButton(label);
-  button.position(10, 10 + index * 30);
+
+  if (index<=5){
+  button.position(windowWidth / 5, 150 + index * 30);
+
+  }
+  else if (index>5 && index<=10){
+    button.position(windowWidth- windowWidth / 5, 10 + index * 30);
+  
+    }
+
+    else if(index>10 && index<=15){
+
+      button.position(windowWidth- windowWidth / 5, windowHeight - (-150+ index * 30));
+    }
+
+    else if(index>15 && index<=20){
+
+      button.position(windowWidth / 5, windowHeight - (-300+ index * 30));
+    }
   button.mousePressed(() => toggleVolume(sound));
   button.mouseClicked(() => playApito(index));
 }
