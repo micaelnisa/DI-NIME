@@ -68,7 +68,25 @@ function touchStarted() {
       apitos_button.verificarToque(x, y);
       graves_button.verificarToque(x, y);
 
-      // Verifica se todos os botões estão selecionados
+      // Adiciona verificação para manter a seleção
+      if (melodia_button.selecionada) {
+        percursao_button.selecionar();
+        apitos_button.selecionar();
+        graves_button.selecionar();
+      } else if (percursao_button.selecionada) {
+        melodia_button.selecionar();
+        apitos_button.selecionar();
+        graves_button.selecionar();
+      } else if (apitos_button.selecionada) {
+        melodia_button.selecionar();
+        percursao_button.selecionar();
+        graves_button.selecionar();
+      } else if (graves_button.selecionada) {
+        melodia_button.selecionar();
+        percursao_button.selecionar();
+        apitos_button.selecionar();
+      }
+
       if (
         melodia_button.selecionada &&
         percursao_button.selecionada &&
@@ -118,6 +136,10 @@ class BotaoRedondo {
 
   selecionar() {
     this.selecionada = !this.selecionada;
+  }
+
+  nao_selecionar() {
+    this.selecionada = false;
   }
 
   verificarToque(x, y) {
