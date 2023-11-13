@@ -9,6 +9,7 @@ let corMelodia, corPercursão, corApitos, corGraves;
 let playButton; 
 var melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
 let allSounds = [];
+let toggleButtons = [];
 
 function preload() {
     //SOM
@@ -82,6 +83,31 @@ function setup() {
     playButton = createButton('Play');
     playButton.position(10, 10);
     playButton.mousePressed(play);
+
+  // Crie os botões de alternância uma vez aqui
+  createToggleButton('Melodia 1', melodia1, 1);
+  createToggleButton('Melodia 2', melodia2, 2);
+  createToggleButton('Melodia 3', melodia3, 3);
+  createToggleButton('Melodia 4', melodia4, 4);
+  createToggleButton('Melodia 5', melodia5, 5);
+
+  createToggleButton('Baixo 1', baixo1, 6);
+  createToggleButton('Baixo 2', baixo2, 7);
+  createToggleButton('Baixo 3', baixo3, 8);
+  createToggleButton('Baixo 4', baixo4, 9);
+  createToggleButton('Baixo 5', baixo5, 10);
+
+  createToggleButton('Percussão 1', perc1, 11);
+  createToggleButton('Percussão 2', perc2, 12);
+  createToggleButton('Percussão 3', perc3, 13);
+  createToggleButton('Percussão 4', perc4, 14);
+  createToggleButton('Percussão 5', perc5, 15);
+
+  createToggleButton('Apito 1', apito1, 16);
+  createToggleButton('Apito 2', apito2, 17);
+  createToggleButton('Apito 3', apito3, 18);
+  createToggleButton('Apito 4', apito4, 19);
+  createToggleButton('Apito 5', apito5, 20);
   
 }
 
@@ -90,8 +116,12 @@ function createToggleButton(label, sound, index) {
   let verticalPosition = 50 + index * 40;
   button.position(10, verticalPosition);
   button.mousePressed(() => toggleVolume(sound));
+
+  // Armazene os botões em um array global
+  toggleButtons.push(button);
 }
-  
+
+
 function toggleVolume(sound) {
   // Alterna o volume entre 0 e 1
   sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
@@ -117,37 +147,20 @@ function draw() {
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].display();
     }
-
-      // Adiciona botões para Melodia, Baixo, Percussão e Apito
-    createToggleButton('Melodia 1', melodia1, 1);
-    createToggleButton('Melodia 2', melodia2, 2);
-    createToggleButton('Melodia 3', melodia3, 3);
-    createToggleButton('Melodia 4', melodia4, 4);
-    createToggleButton('Melodia 5', melodia5, 5);
-  
-    createToggleButton('Baixo 1', baixo1, 6);
-    createToggleButton('Baixo 2', baixo2, 7);
-    createToggleButton('Baixo 3', baixo3, 8);
-    createToggleButton('Baixo 4', baixo4, 9);
-    createToggleButton('Baixo 5', baixo5, 10);
-  
-    createToggleButton('Percussão 1', perc1, 11);
-    createToggleButton('Percussão 2', perc2, 12);
-    createToggleButton('Percussão 3', perc3, 13);
-    createToggleButton('Percussão 4', perc4, 14);
-    createToggleButton('Percussão 5', perc5, 15);
-  
-    createToggleButton('Apito 1', apito1, 16);
-    createToggleButton('Apito 2', apito2, 17);
-    createToggleButton('Apito 3', apito3, 18);
-    createToggleButton('Apito 4', apito4, 19);
-    createToggleButton('Apito 5', apito5, 20);
-
     sair.display();
+
+     // Mostra os botões de alternância
+     toggleButtons.forEach(button => {
+      button.show();
+    });
   }
   
   if (gameState === "play" || gameState === "iniciar") {
     playButton.hide();
+        // Oculta os botões de alternância
+        toggleButtons.forEach(button => {
+          button.hide();
+        });
   } else {
     playButton.show();
   }
