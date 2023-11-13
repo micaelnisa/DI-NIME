@@ -1,13 +1,59 @@
-let playButton;
+let inicioButton;
 let gameState = "play"; // estado do jogo para podermos ir alterando conforme o que esta a acontecer
 let botaoCirculos = [];
 let canvas;
 let corMelodia, corPercursão, corApitos, corGraves;
 
+
+//SONS
+let playButton; 
+var melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
+let allSounds = [];
+
+function preload() {
+    //SOM
+
+    //MELODIAS
+    melodia1 = loadSound("som/Melodia_1.mp3");
+    melodia2 = loadSound("som/Melodia_2.mp3");
+    melodia3 = loadSound("som/Melodia_3.mp3");
+    melodia4 = loadSound("som/Melodia_4.mp3");
+    melodia5 = loadSound("som/Melodia_5.mp3");
+
+    //BAIXOS
+    baixo1 = loadSound("som/Baixo_1.mp3");
+    baixo2 = loadSound("som/Baixo_2.mp3");
+    baixo3 = loadSound("som/Baixo_3.mp3");
+    baixo4 = loadSound("som/Baixo_4.mp3");
+    baixo5 = loadSound("som/Baixo_5.mp3");
+
+    //PERCUSSÕES
+    perc1 = loadSound("som/Perc_1.mp3");
+    perc2 = loadSound("som/Perc_2.mp3");
+    perc3 = loadSound("som/Perc_3.mp3");
+    perc4 = loadSound("som/Perc_4.mp3");
+    perc5 = loadSound("som/Perc_5.mp3");
+
+    //APITOS
+    apito1 = loadSound("som/Apito_1.mp3");
+    apito2 = loadSound("som/Apito_2.mp3");
+    apito3 = loadSound("som/Apito_3.mp3");
+    apito4 = loadSound("som/Apito_4.mp3");
+    apito5 = loadSound("som/Apito_5.mp3");
+
+
+     // Add all sounds to the array
+     allSounds = [melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5];
+
+     // Set volume to 0 for all sounds
+     allSounds.forEach(sound => {
+         sound.setVolume(0);
+     });
+}
+
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
-
 
 
   corMelodia = color(32, 181, 115);
@@ -15,7 +61,7 @@ function setup() {
   corApitos = color(140, 198, 63);
   corGraves = color(217, 224, 33)
   /* -------------------------------------- Codigo para gamestate play ----------------------------------------*/
-  playButton = new BotaoRedondo(width / 2, height / 2, 200, color(0, 113, 188));
+  inicioButton = new BotaoRedondo(width / 2, height / 2, 200, color(0, 113, 188));
 
   /* -------------------------------------- Codigo para gamestate iniciar ----------------------------------------*/
   //diametro cagado a definir a posição one love codigo á pedreiro 
@@ -32,14 +78,32 @@ function setup() {
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 100, 2, PI, 0, corApitos);
   botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 2, -PI, 0, corGraves);
   botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 2, 0, -PI, corPercursão);
+
+    playButton = createButton('Play');
+    playButton.position(10, 10);
+    playButton.mousePressed(play);
+  
 }
 
+function createToggleButton(label, sound, index) {
+  let button = createButton(label);
+  let verticalPosition = 50 + index * 40;
+  button.position(10, verticalPosition);
+  button.mousePressed(() => toggleVolume(sound));
+}
+  
+function toggleVolume(sound) {
+  // Alterna o volume entre 0 e 1
+  sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
+}
+
+ 
 function draw() {
   noStroke();
   background(35, 53, 63);
 
   if (gameState === "play") {
-    playButton.display();
+    inicioButton.display();
   } else if (gameState === "iniciar") {
     // botoes do elementos do jogo
     melodia_button.display();
@@ -53,9 +117,49 @@ function draw() {
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].display();
     }
+
+      // Adiciona botões para Melodia, Baixo, Percussão e Apito
+    createToggleButton('Melodia 1', melodia1, 1);
+    createToggleButton('Melodia 2', melodia2, 2);
+    createToggleButton('Melodia 3', melodia3, 3);
+    createToggleButton('Melodia 4', melodia4, 4);
+    createToggleButton('Melodia 5', melodia5, 5);
+  
+    createToggleButton('Baixo 1', baixo1, 6);
+    createToggleButton('Baixo 2', baixo2, 7);
+    createToggleButton('Baixo 3', baixo3, 8);
+    createToggleButton('Baixo 4', baixo4, 9);
+    createToggleButton('Baixo 5', baixo5, 10);
+  
+    createToggleButton('Percussão 1', perc1, 11);
+    createToggleButton('Percussão 2', perc2, 12);
+    createToggleButton('Percussão 3', perc3, 13);
+    createToggleButton('Percussão 4', perc4, 14);
+    createToggleButton('Percussão 5', perc5, 15);
+  
+    createToggleButton('Apito 1', apito1, 16);
+    createToggleButton('Apito 2', apito2, 17);
+    createToggleButton('Apito 3', apito3, 18);
+    createToggleButton('Apito 4', apito4, 19);
+    createToggleButton('Apito 5', apito5, 20);
+
     sair.display();
   }
+  
+  if (gameState === "play" || gameState === "iniciar") {
+    playButton.hide();
+  } else {
+    playButton.show();
+  }
 }
+
+function play() {
+  // Play all sounds
+  allSounds.forEach(sound => {
+      sound.play();
+  });
+}
+
 
 function touchStarted() {
 
@@ -63,7 +167,7 @@ function touchStarted() {
     let x = touches[j].x;
     let y = touches[j].y;
 
-    if (gameState === "play" && playButton.contains(x, y)) {
+    if (gameState === "play" && inicioButton.contains(x, y)) {
       gameState = "iniciar";
     } else if (gameState === "iniciar" && sair.contains(x, y)) {
       gameState = "play";
@@ -73,7 +177,7 @@ function touchStarted() {
       apitos_button.verificarToque(x, y);
       graves_button.verificarToque(x, y);
 
-      // Verifica se todos os botões estão selecionados
+      // Verifica se todos os botões estão selecionados no iniciar
       if (
         melodia_button.selecionada &&
         percursao_button.selecionada &&
