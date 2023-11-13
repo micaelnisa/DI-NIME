@@ -234,12 +234,10 @@ class SeletorCirculos {
   display() {
     fill(this.cor);
     ellipse(this.x, this.y, this.diametro, this.diametro);
-
     fill(10, 43, 53);
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(24);
-    
     text(this.numero, this.x, this.y);
   }
 
