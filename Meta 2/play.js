@@ -85,16 +85,22 @@ function setup() {
   
 }
 
+// Função para tocar o apito correspondente
+function playApito(apitoNumber) {
+  allSounds[apitoNumber - 1].play();
+}
+
+// Função para criar botões de alternância
 function createToggleButton(label, sound, index) {
   let button = createButton(label);
-  let verticalPosition = 50 + index * 40;
-  button.position(10, verticalPosition);
+  button.position(10, 10 + index * 30);
   button.mousePressed(() => toggleVolume(sound));
+  button.mouseClicked(() => playApito(index));
 }
-  
+
 function toggleVolume(sound) {
-  // Alterna o volume entre 0 e 1
-  sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
+// Alterna o volume entre 0 e 1
+sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
 }
 
  
@@ -145,7 +151,7 @@ function draw() {
 
     sair.display();
   }
-  
+
   if (gameState === "play" || gameState === "iniciar") {
     playButton.hide();
   } else {
