@@ -85,11 +85,17 @@ createToggleButton('Apito 4', apito4, 19);
 createToggleButton('Apito 5', apito5, 20);
 }
 
+// Função para tocar o apito correspondente
+function playApito(apitoNumber) {
+  allSounds[apitoNumber - 1].play();
+}
+
+// Função para criar botões de alternância
 function createToggleButton(label, sound, index) {
-let button = createButton(label);
-let verticalPosition = 50 + index * 40;
-button.position(10, verticalPosition);
-button.mousePressed(() => toggleVolume(sound));
+  let button = createButton(label);
+  button.position(10, 10 + index * 30);
+  button.mousePressed(() => toggleVolume(sound));
+  button.mouseClicked(() => playApito(index));
 }
 
 function toggleVolume(sound) {
@@ -106,9 +112,7 @@ function draw() {
 
 function play() {
   // Play all sounds
-  allSounds.forEach(sound => {
       sound.play();
-  });
 }
 
 function touchStarted() {
