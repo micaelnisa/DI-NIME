@@ -87,13 +87,7 @@ function touchStarted() {
  }
 }
 
-function touchEnded() {
-  // Redefine o estado de seleção quando não há toque
-  melodia_button.selecionada = false;
-  percursao_button.selecionada = false;
-  apitos_button.selecionada = false;
-  graves_button.selecionada = false;
-}
+
 
 
 class BotaoRedondo {
