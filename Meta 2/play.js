@@ -58,10 +58,6 @@ function draw() {
 }
 
 function touchStarted() {
-  let melodiaTocado = false;
-  let percursaoTocado = false;
-  let apitosTocado = false;
-  let gravesTocado = false;
 
   for (let j = 0; j < touches.length; j++) {
     let x = touches[j].x;
@@ -72,15 +68,20 @@ function touchStarted() {
     } else if (gameState === "iniciar" && sair.contains(x, y)) {
       gameState = "play";
     } else if (gameState === "iniciar") {
-      melodiaTocado = melodiaTocado || melodia_button.verificarToque(x, y);
-      percursaoTocado = percursaoTocado || percursao_button.verificarToque(x, y);
-      apitosTocado = apitosTocado || apitos_button.verificarToque(x, y);
-      gravesTocado = gravesTocado || graves_button.verificarToque(x, y);
+      melodia_button.verificarToque(x, y);
+      percursao_button.verificarToque(x, y);
+      apitos_button.verificarToque(x, y);
+      graves_button.verificarToque(x, y);
 
-        // Verifica se todas as bolas estão a ser tocadas antes de ir para a gameState "jogar"
-        if (gameState === "iniciar" && melodiaTocado && percursaoTocado && apitosTocado && gravesTocado && touches.length === 5) {
+      // Verifica se todos os botões estão selecionados
+      if (
+        melodia_button.selecionada &&
+        percursao_button.selecionada &&
+        apitos_button.selecionada &&
+        graves_button.selecionada
+      ) {
         gameState = "jogar";
-        }
+      }
     } else if (gameState === "jogar" && sair.contains(x, y)) {
       gameState = "play";
     }
@@ -89,38 +90,7 @@ function touchStarted() {
       botaoCirculos[i].verificarToque(x, y);
     }
   }
-
-
 }
-
-
-
-function touchEnded() {
-  for (let j = 0; j < touches.length; j++) {
-    let x = touches[j].x;
-    let y = touches[j].y;
-
-    // Desseleciona os botões quando o toque é removido
-    if (!touches.find((touch) => melodia_button.contains(touch.x, touch.y))) {
-      melodia_button.nao_selecionada();
-    }
-
-    if (!touches.find((touch) => percursao_button.contains(touch.x, touch.y))) {
-      percursao_button.nao_selecionada();
-    }
-
-    if (!touches.find((touch) => apitos_button.contains(touch.x, touch.y))) {
-      apitos_button.nao_selecionada();
-    }
-
-    if (!touches.find((touch) => graves_button.contains(touch.x, touch.y))) {
-      graves_button.nao_selecionada();
-    }
-
-  }
-}
-
-
 
 
 class BotaoRedondo {
@@ -151,10 +121,6 @@ class BotaoRedondo {
 
   selecionar() {
     this.selecionada = !this.selecionada;
-  }
-
-  nao_selecionada() {
-    this.selecionada = false;
   }
 
   verificarToque(x, y) {
