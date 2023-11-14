@@ -50,6 +50,13 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
 
+  window.addEventListener('load', function () {
+    allSounds.forEach(sound => {
+        sound.play();
+        sound.setVolume(0);
+    });
+});
+
   botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 50, 2, 0, PI);
   botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 50, 2, PI, 0);
   botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 50, 2, -PI, 0);
@@ -101,7 +108,7 @@ function createToggleButton(label, sound, index) {
 function toggleVolume(sound) {
   // Set volume to 0 for all sounds
   allSounds.forEach(s => {
-    s.setVolume(0);
+      s.setVolume(0);
   });
 
   // Set volume to 1 for the selected sound
@@ -124,12 +131,12 @@ function play() {
 
 function touchStarted() {
   for (let j = 0; j < touches.length; j++) {
-    let x = touches[j].x;
-    let y = touches[j].y;
+      let x = touches[j].x;
+      let y = touches[j].y;
 
-    for (let i = 1; i < botaoCirculos.length; i++) {
-      botaoCirculos[i].verificarToque(x, y);
-    }
+      for (let i = 1; i < botaoCirculos.length; i++) {
+          botaoCirculos[i].verificarToque(x, y);
+      }
   }
 }
 
