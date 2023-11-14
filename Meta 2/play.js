@@ -173,16 +173,6 @@ function draw() {
 
 
 
-function play() {
-  // Play all sounds
-  allSounds.forEach(sound => {
-      sound.play();
-  });
-}
-
-
-
-
 function touchStarted() {
 
   for (let j = 0; j < touches.length; j++) {
