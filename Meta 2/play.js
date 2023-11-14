@@ -130,7 +130,7 @@ function draw() {
       botaoCirculos[i].display();
     }
 
-    createToggleButton('Melodia 1', melodia1, 1);
+    /*createToggleButton('Melodia 1', melodia1, 1);
     createToggleButton('Melodia 2', melodia2, 2);
     createToggleButton('Melodia 3', melodia3, 3);
     createToggleButton('Melodia 4', melodia4, 4);
@@ -154,7 +154,7 @@ function draw() {
     createToggleButton('Apito 4', apito4, 19);
     createToggleButton('Apito 5', apito5, 20);
 
-    sair.display();
+    sair.display();*/
   }
 
   if (gameState === "play" || gameState === "iniciar") {
