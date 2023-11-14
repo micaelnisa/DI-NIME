@@ -293,10 +293,13 @@ class SeletorCirculos {
     this.diametro = diametro;
     this.numero = numero;
     this.cor = cor;
+    this.corOriginal = cor; // Adiciona uma propriedade para armazenar a cor original
+    this.corNova = color(255, 165, 0); // Define a nova cor
+    this.corAtual = cor; // Inicializa a cor atual com a cor original
   }
 
   display() {
-    fill(this.cor);
+    fill(this.corAtual);
     ellipse(this.x, this.y, this.diametro, this.diametro);
     fill(10, 43, 53);
     textAlign(CENTER, CENTER);
@@ -311,6 +314,7 @@ class SeletorCirculos {
   }
 
   mudarCor() {
-    this.cor = color(255, 165, 0);
+    // Alterna entre a cor original e a nova cor
+    this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
   }
 }
