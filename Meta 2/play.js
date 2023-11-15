@@ -67,10 +67,14 @@ function setup() {
   sair = new BotaoRedondo(100, 100, 50, color(255, 0, 0));
   jogar = new BotaoRedondo(100, 200, 50, color(0, 255, 0));
 
-  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 2, 0, PI, corMelodia);
-  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 6, 100, 2, PI, 0, corApitos);
-  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 2, -PI, 0, corGraves);
-  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 2, 0, -PI, corPercursão);
+  //melodia
+  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, corMelodia);
+  //apitos
+  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 2, PI, 0, corApitos);
+  //graves
+  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, corGraves);
+  //percursão
+  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, corPercursão);
 
   playButton = createButton('Play');
   playButton.position(windowWidth / 2, windowHeight / 2);
@@ -299,6 +303,7 @@ class SeletorCirculos {
   }
 
   display() {
+    noStroke();
     fill(this.corAtual);
     ellipse(this.x, this.y, this.diametro, this.diametro);
     fill(10, 43, 53);
