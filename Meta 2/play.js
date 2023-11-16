@@ -6,7 +6,7 @@ let corMelodia, corPercursão, corApitos, corGraves;
 
 // SONS
 let playButton;
-let melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
+let melodia_button, percursao_button, apitos_button, graves_button;
 let allSounds = [];
 let playbackSpeedSlider;
 
@@ -68,22 +68,33 @@ function setup() {
   jogar = new BotaoRedondo(100, 200, 50, color(0, 255, 0));
 
   //melodia
-  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, corMelodia);
+  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, corMelodia, "melodia");
   //apitos
-  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 2, PI, 0, corApitos);
+  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 2, PI, 0, corApitos, "apitos");
   //graves
-  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, corGraves);
+  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, corGraves, "graves");
   //percursão
-  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, corPercursão);
+  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, corPercursão, "percussão");
 
   playButton = createButton('Play');
-  playButton.position(windowWidth / 2, windowHeight / 2);
+  playButton.position(windowWidth / 2 - 50, windowHeight / 2 - 20); // Ajuste as posições conforme necessário
   playButton.mousePressed(play);
+  playButton.touchStarted(() => {
+    getAudioContext().resume().then(() => {
+      play();
+    });
+  });
+  playButton.hide();
+
 
   playbackSpeedSlider = createSlider(0.5, 1.5, 1, 0.1);
-  playbackSpeedSlider.position(windowWidth / 2, (windowHeight / 2 - 100));
+  playbackSpeedSlider.position(windowWidth / 2 - 40, windowHeight / 2 - 50); // Ajuste as posições conforme necessário
   playbackSpeedSlider.style('width', '80px');
+  playbackSpeedSlider.touchStarted(() => {
+  });
   playbackSpeedSlider.hide();
+
+  createButtons();
 }
 
 function play() {
@@ -99,21 +110,68 @@ function toggleVolume(sound) {
   sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
 }
 
-function createToggleButton(label, sound, index) {
-  let button = createButton(label);
+function createToggleButton(label, button, index) {
+  let buttonWidth = 80;
+  let buttonHeight = 20;
+  let margin = 10;
 
-  if (index <= 5) {
-    button.position(windowWidth / 5, 150 + index * 30);
-  } else if (index > 5 && index <= 10) {
-    button.position(windowWidth - windowWidth / 5, 10 + index * 30);
-  } else if (index > 10 && index <= 15) {
-    button.position(windowWidth - windowWidth / 5, windowHeight - (-150 + index * 30));
-  } else if (index > 15 && index <= 20) {
-    button.position(windowWidth / 5, windowHeight - (-300 + index * 30));
+  let elt = button.elt; 
+
+  if (elt) { // Verifica se elt não é undefined
+    if (index <= 5) {
+      elt.style.position = 'absolute';
+      elt.style.left = `${windowWidth / 5}px`;
+      elt.style.top = `${150 + index * (buttonHeight + margin)}px`;
+    } else if (index > 5 && index <= 10) {
+      elt.style.position = 'absolute';
+      elt.style.left = `${windowWidth - windowWidth / 5}px`;
+      elt.style.top = `${10 + (index - 6) * (buttonHeight + margin)}px`;
+    } else if (index > 10 && index <= 15) {
+      elt.style.position = 'absolute';
+      elt.style.left = `${windowWidth - windowWidth / 5}px`;
+      elt.style.top = `${windowHeight - (-150 + (index - 11) * (buttonHeight + margin))}px`;
+    } else if (index > 15 && index <= 20) {
+      elt.style.position = 'absolute';
+      elt.style.left = `${windowWidth / 5}px`;
+      elt.style.top = `${windowHeight - (-300 + (index - 16) * (buttonHeight + margin))}px`;
+    }
   }
-  button.mousePressed(() => toggleVolume(sound));
-  button.mouseClicked(() => playApito(index));
+
+  if (button instanceof p5.Element) {
+    button.touchStarted(() => toggleVolume(button));
+    button.touchEnded(() => playApito(index));
+  }
 }
+
+
+
+function createButtons() {
+  createToggleButton('Melodia 1', melodia_button, 1);
+  createToggleButton('Melodia 2', melodia_button, 2);
+  createToggleButton('Melodia 3', melodia_button, 3);
+  createToggleButton('Melodia 4', melodia_button, 4);
+  createToggleButton('Melodia 5', melodia_button, 5);
+
+  createToggleButton('Baixo 1', graves_button, 6);
+  createToggleButton('Baixo 2', graves_button, 7);
+  createToggleButton('Baixo 3', graves_button, 8);
+  createToggleButton('Baixo 4', graves_button, 9);
+  createToggleButton('Baixo 5', graves_button, 10);
+
+  createToggleButton('Percussão 1', percursao_button, 11);
+  createToggleButton('Percussão 2', percursao_button, 12);
+  createToggleButton('Percussão 3', percursao_button, 13);
+  createToggleButton('Percussão 4', percursao_button, 14);
+  createToggleButton('Percussão 5', percursao_button, 15);
+
+  createToggleButton('Apito 1', apitos_button, 16);
+  createToggleButton('Apito 2', apitos_button, 17);
+  createToggleButton('Apito 3', apitos_button, 18);
+  createToggleButton('Apito 4', apitos_button, 19);
+  createToggleButton('Apito 5', apitos_button, 20);
+}
+
+
 
 function draw() {
   noStroke();
@@ -134,30 +192,8 @@ function draw() {
       botaoCirculos[i].display();
     }
 
-    createToggleButton('Melodia 1', melodia1, 1);
-    createToggleButton('Melodia 2', melodia2, 2);
-    createToggleButton('Melodia 3', melodia3, 3);
-    createToggleButton('Melodia 4', melodia4, 4);
-    createToggleButton('Melodia 5', melodia5, 5);
-
-    createToggleButton('Baixo 1', baixo1, 6);
-    createToggleButton('Baixo 2', baixo2, 7);
-    createToggleButton('Baixo 3', baixo3, 8);
-    createToggleButton('Baixo 4', baixo4, 9);
-    createToggleButton('Baixo 5', baixo5, 10);
-
-    createToggleButton('Percussão 1', perc1, 11);
-    createToggleButton('Percussão 2', perc2, 12);
-    createToggleButton('Percussão 3', perc3, 13);
-    createToggleButton('Percussão 4', perc4, 14);
-    createToggleButton('Percussão 5', perc5, 15);
-
-    createToggleButton('Apito 1', apito1, 16);
-    createToggleButton('Apito 2', apito2, 17);
-    createToggleButton('Apito 3', apito3, 18);
-    createToggleButton('Apito 4', apito4, 19);
-    createToggleButton('Apito 5', apito5, 20);
-
+    playButton.show(); 
+    playbackSpeedSlider.show(); 
     sair.display();
   }
 
@@ -253,7 +289,7 @@ class BotaoRedondo {
 
 
 class BotaoCirculos {
-  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, cor) {
+  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, cor, categoria) {
     this.x = x;
     this.y = y;
     this.angSeletoresInicio = angSeletoresInicio;
@@ -262,13 +298,14 @@ class BotaoCirculos {
     this.numCirculosSatelites = numCirculosSatelites;
     this.circulosSatelites = [];
     this.cor = cor;
+    this.categoria= categoria;
 
     for (let i = 0; i < numCirculosSatelites; i++) {
       let angulo = map(i, 0, numCirculosSatelites, angSeletoresInicio, angSeletoresFim);
-      let raio = this.diametroCentral * 1.3;
+      let raio = this.diametroCentral * 1;
       let sateliteX = this.x + raio * cos(angulo);
       let sateliteY = this.y + raio * sin(angulo);
-      this.circulosSatelites.push(new SeletorCirculos(sateliteX, sateliteY, 50, i + 1, this.cor));
+      this.circulosSatelites.push(new SeletorCirculos(sateliteX, sateliteY, 50, i + 1, this.cor, this.categoria));
     }
   }
 
