@@ -70,15 +70,18 @@ function setup() {
   //melodia
   botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, corMelodia);
   //apitos
-  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 2, PI, 0, corApitos);
+  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 5, PI, 0, corApitos);
   //graves
   botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, corGraves);
   //percursão
   botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, corPercursão);
 
+  
+
   playButton = createButton('Play');
   playButton.position(windowWidth / 2, windowHeight / 2);
   playButton.mousePressed(play);
+  playButton.hide();
 
   playbackSpeedSlider = createSlider(0.5, 1.5, 1, 0.1);
   playbackSpeedSlider.position(windowWidth / 2, (windowHeight / 2 - 100));
@@ -115,31 +118,6 @@ function draw() {
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].display();
     }
-
-    createToggleButton('Melodia 1', melodia1, 1);
-    createToggleButton('Melodia 2', melodia2, 2);
-    createToggleButton('Melodia 3', melodia3, 3);
-    createToggleButton('Melodia 4', melodia4, 4);
-    createToggleButton('Melodia 5', melodia5, 5);
-
-    createToggleButton('Baixo 1', baixo1, 6);
-    createToggleButton('Baixo 2', baixo2, 7);
-    createToggleButton('Baixo 3', baixo3, 8);
-    createToggleButton('Baixo 4', baixo4, 9);
-    createToggleButton('Baixo 5', baixo5, 10);
-
-    createToggleButton('Percussão 1', perc1, 11);
-    createToggleButton('Percussão 2', perc2, 12);
-    createToggleButton('Percussão 3', perc3, 13);
-    createToggleButton('Percussão 4', perc4, 14);
-    createToggleButton('Percussão 5', perc5, 15);
-
-    createToggleButton('Apito 1', apito1, 16);
-    createToggleButton('Apito 2', apito2, 17);
-    createToggleButton('Apito 3', apito3, 18);
-    createToggleButton('Apito 4', apito4, 19);
-    createToggleButton('Apito 5', apito5, 20);
-
     sair.display();
   }
 
@@ -189,10 +167,12 @@ function touchStarted() {
     }
 
     for (let i = 1; i < botaoCirculos.length; i++) {
-      botaoCirculos[i].verificarToque(x, y);
-    }
+        botaoCirculos[i].verificarToque(x, y);
+      }
   }
 }
+
+
 
 
 class BotaoRedondo {
@@ -250,7 +230,8 @@ class BotaoCirculos {
       let raio = this.diametroCentral * 1.3;
       let sateliteX = this.x + raio * cos(angulo);
       let sateliteY = this.y + raio * sin(angulo);
-      this.circulosSatelites.push(new SeletorCirculos(sateliteX, sateliteY, 50, i + 1, this.cor));
+      this.circulosSatelites.push(new SeletorCirculos(sateliteX, sateliteY, 50, i + 1, this.cor, allSounds[i]));
+
     }
   }
 
@@ -259,7 +240,7 @@ class BotaoCirculos {
     sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
   }
   
-  createToggleButton(label, sound, index) {
+  /*createToggleButton(label, sound,index) {
     let button = createButton(label);
   
     if (index <= 5) {
@@ -273,8 +254,7 @@ class BotaoCirculos {
     }
     button.mousePressed(() => toggleVolume(sound));
     button.mouseClicked(() => playApito(index));
-  }
-
+  }*/
   display() {
     fill(this.cor);
     ellipse(this.x, this.y, this.diametroCentral, this.diametroCentral);
@@ -288,43 +268,54 @@ class BotaoCirculos {
     for (let i = 0; i < this.numCirculosSatelites; i++) {
       if (this.circulosSatelites[i].contains(px, py)) {
         this.circulosSatelites[i].mudarCor();
+        this.circulosSatelites[i].som(i);
       }
     }
   }
 }
 
 class SeletorCirculos {
-  constructor(x, y, diametro, numero, cor, som) {
-    this.x = x;
-    this.y = y;
-    this.diametro = diametro;
-    this.numero = numero;
-    this.cor = cor;
-    this.corOriginal = cor; // Adiciona uma propriedade para armazenar a cor original
-    this.corNova = color(255, 165, 0); // Define a nova cor
-    this.corAtual = cor; // Inicializa a cor atual com a cor original
-    this.som = som;
-  }
-
-  display() {
-    noStroke();
-    fill(this.corAtual);
-    ellipse(this.x, this.y, this.diametro, this.diametro);
-    fill(10, 43, 53);
-    textAlign(CENTER, CENTER);
-    textStyle(BOLD);
-    textSize(24);
-    text(this.numero, this.x, this.y);
-  }
-
-  contains(px, py) {
-    let d = dist(px, py, this.x, this.y);
-    return d < this.diametro / 2;
-  }
-
-  mudarCor() {
-    // Alterna entre a cor original e a nova cor
-    this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
-  }
+    constructor(x, y, diametro, numero, cor) {
+      this.x = x;
+      this.y = y;
+      this.diametro = diametro;
+      this.numero = numero;
+      this.cor = cor;
+      this.corOriginal = cor;
+      this.corNova = color(255, 165, 0);
+      this.corAtual = cor;
+    }
   
+    display() {
+      noStroke();
+      fill(this.corAtual);
+      ellipse(this.x, this.y, this.diametro, this.diametro);
+      fill(10, 43, 53);
+      textAlign(CENTER, CENTER);
+      textStyle(BOLD);
+      textSize(24);
+      text(this.numero, this.x, this.y);
+    }
+  
+    contains(px, py) {
+      let d = dist(px, py, this.x, this.y);
+      return d < this.diametro / 2;
+    }
+  
+    mudarCor() {
+      this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
+    }
+
+  /*som() {
+    this.somFunction.setVolume(1);
+  }*/
+
+    som(index) {
+        allSounds[index].setVolume(1);
+      }
+      
+
 }
+  
+
+
