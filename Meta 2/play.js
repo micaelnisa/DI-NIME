@@ -10,6 +10,13 @@ let melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, ba
 let allSounds = [];
 let playbackSpeedSlider;
 
+const categoriaIndices = {
+    "melodia": [0, 1, 2, 3, 4],
+    "baixo": [5, 6, 7, 8, 9],
+    "percursao": [10, 11, 12, 13, 14],
+    "apitos": [15, 16, 17, 18, 19],
+  };
+
 function preload() {
   // MELODIAS
   melodia1 = loadSound("som/Melodia_1.mp3");
@@ -68,13 +75,13 @@ function setup() {
   jogar = new BotaoRedondo(100, 200, 50, color(0, 255, 0));
 
   //melodia
-  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, corMelodia);
+  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, corMelodia, "melodia");
   //apitos
-  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 5, PI, 0, corApitos);
+  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 5, PI, 0, corApitos, "apitos");
   //graves
-  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, corGraves);
+  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, corGraves, "graves");
   //percursão
-  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, corPercursão);
+  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, corPercursão, "percursao");
 
   
 
@@ -208,6 +215,7 @@ class BotaoRedondo {
   verificarToque(x, y) {
     if (this.contains(x, y)) {
       this.selecionar();
+      
     }
   }
 }
@@ -215,7 +223,7 @@ class BotaoRedondo {
 
 
 class BotaoCirculos {
-  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, cor) {
+  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, cor, categoria) {
     this.x = x;
     this.y = y;
     this.angSeletoresInicio = angSeletoresInicio;
@@ -224,6 +232,7 @@ class BotaoCirculos {
     this.numCirculosSatelites = numCirculosSatelites;
     this.circulosSatelites = [];
     this.cor = cor;
+    this.categoria = categoria;
 
     for (let i = 0; i < numCirculosSatelites; i++) {
       let angulo = map(i, 0, numCirculosSatelites, angSeletoresInicio, angSeletoresFim);
@@ -268,7 +277,7 @@ class BotaoCirculos {
     for (let i = 0; i < this.numCirculosSatelites; i++) {
       if (this.circulosSatelites[i].contains(px, py)) {
         this.circulosSatelites[i].mudarCor();
-        this.circulosSatelites[i].som(i);
+        this.circulosSatelites[i].som(this.categoria, i);
       }
     }
   }
@@ -310,12 +319,22 @@ class SeletorCirculos {
     this.somFunction.setVolume(1);
   }*/
 
-    som(index) {
-        allSounds[index].setVolume(1);
+  som(categoria, indice) {
+    if (categoria in categoriaIndices) {
+      const indices = categoriaIndices[categoria];
+      const index = indices[indice];
+  
+      if (index !== undefined) {
+        if (allSounds[index].isPlaying()) {
+        } else {
+          allSounds[index].setVolume(1);
+        }
       }
-      
+    }
+  }
 
 }
   
+
 
 
