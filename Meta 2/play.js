@@ -127,8 +127,8 @@ function draw() {
     apitos_button.display();
     graves_button.display();
 
-    jogar.display();
-    sair.display();
+    //jogar.display();
+    //sair.display();
   } else if (gameState === "jogar") {
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].display();
@@ -158,7 +158,7 @@ function draw() {
     createToggleButton('Apito 4', apito4, 19);
     createToggleButton('Apito 5', apito5, 20);
 
-    sair.display();
+    //sair.display();
   }
 
   if (gameState === "play" || gameState === "iniciar") {
