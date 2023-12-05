@@ -339,9 +339,19 @@ class SeletorCirculos {
   mudarCor() {  
     // Alterna entre a cor original e a nova cor apenas para o botão atual
    // this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
+   // Stop all sounds
+   for (let i = 0; i < this.array.length; i++) {
+    this.array[i].stop();
+  }
+
+  // Play the selected sound
+  this.array[this.numero - 1].play();
+
+  // Set volume for the selected sound (if needed)
+  this.array[this.numero - 1].setVolume(1);
 
     //som
-    toggleVolume(this.array[this.numero-1]);
+    toggleVolume(this.array[this.numero - 1]);
     for (let i = 0; i < this.array.length; i++) {
       if (i !== this.numero - 1) {
         this.array[i].setVolume(0);
