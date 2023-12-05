@@ -15,8 +15,8 @@ let allSounds = [];
 let melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
 //painel
 let fundogeral, fundogeralsvg;
-let speedSlider;
-
+let speedSlider, VolSlider;
+//o volume ainda não funciona só posicionei o slider
 
 
 function preload(){
@@ -92,10 +92,15 @@ function setup() {
   fundogeral = new painel (width/2, height/2, fundogeralsvg, width/4, width/6);
   //SpeedSlider
   speedSlider = createSlider(0.5, 1.5, 1, 0.1);
-  speedSlider.position(fundogeral.x, fundogeral.y);
-  speedSlider.style('width', 'fundogeral.h/9');
-  speedSlider.style('rotate', '90deg');
+  speedSlider.position(width/2 - (fundogeral.w/2), height/2 -(fundogeral.h/9));
+  speedSlider.style('transform', 'rotate(-90deg)');
   speedSlider.hide();
+
+  //VolSlider
+  VolSlider = createSlider(0.5, 1.5, 1, 0.1);
+  VolSlider.position(width/2 - (fundogeral.w/2 + 40), height/2 -(fundogeral.h/9));
+  VolSlider.style('transform', 'rotate(-90deg)');
+  VolSlider.hide();
 }
 
 function trocartext(){
@@ -115,6 +120,7 @@ function draw() {
     inicioButton.exibir();
     playButton.hide();
     speedSlider.hide();
+    VolSlider.hide();
   } else if (gamestate === "elementos") {
     botaoMelodia.exibir();
     botaoPercussao.exibir();
@@ -123,6 +129,7 @@ function draw() {
 
     playButton.hide();
     speedSlider.hide();
+    VolSlider.hide();
 
     //instruções
     textAlign(CENTER, CENTER);
@@ -139,6 +146,7 @@ function draw() {
   } else if (gamestate === "jogar") {
     playButton.show();
     speedSlider.show();
+    VolSlider.show();
     fundogeral.exibir();
   }
 
