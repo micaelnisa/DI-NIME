@@ -4,6 +4,10 @@ let botaoCirculos = [];
 let canvas;
 let corMelodia, corPercursão, corApitos, corGraves;
 
+
+let time = 0;
+let frameRate = 30;
+
 // SONS
 let playButton;
 let melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
@@ -41,6 +45,10 @@ function preload() {
 
   // Add all sounds to the array
   allSounds = [melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5];
+  melodias = [melodia1, melodia2, melodia3, melodia4, melodia5];
+  baixos = [baixo1, baixo2, baixo3, baixo4, baixo5];
+  percussoes = [perc1, perc2, perc3, perc4, perc5];
+  apitos = [apito1, apito2, apito3, apito4, apito5];
 
   // Set volume to 0 for all sounds
   allSounds.forEach(sound => {
@@ -68,13 +76,13 @@ function setup() {
   jogar = new BotaoRedondo(100, 200, 50, color(0, 255, 0));
 
   //melodia
-  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, corMelodia);
+  botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 6, 0, PI, corMelodia, melodias);
   //apitos
-  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 2, PI, 0, corApitos);
+  botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 6, PI, 0, corApitos, apitos);
   //graves
-  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, corGraves);
+  botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 6, -PI, 0, corGraves, baixos)  ;
   //percursão
-  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, corPercursão);
+  botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 6, 0, -PI, corPercursão, percussoes);
 
   playButton = createButton('Play');
   playButton.position(windowWidth / 2, windowHeight / 2);
@@ -119,6 +127,11 @@ function draw() {
   noStroke();
   background(35, 53, 63);
 
+  //TIMER
+  if (frameCount % frameRate == 0) {
+    time++;
+  }
+
   if (gameState === "play") {
     inicioButton.display();
   } else if (gameState === "iniciar") {
@@ -134,6 +147,7 @@ function draw() {
       botaoCirculos[i].display();
     }
 
+    /*
     createToggleButton('Melodia 1', melodia1, 1);
     createToggleButton('Melodia 2', melodia2, 2);
     createToggleButton('Melodia 3', melodia3, 3);
@@ -157,7 +171,7 @@ function draw() {
     createToggleButton('Apito 3', apito3, 18);
     createToggleButton('Apito 4', apito4, 19);
     createToggleButton('Apito 5', apito5, 20);
-
+*/
     //sair.display();
   }
 
@@ -253,7 +267,7 @@ class BotaoRedondo {
 
 
 class BotaoCirculos {
-  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, cor) {
+  constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, cor, array) {
     this.x = x;
     this.y = y;
     this.angSeletoresInicio = angSeletoresInicio;
@@ -262,13 +276,14 @@ class BotaoCirculos {
     this.numCirculosSatelites = numCirculosSatelites;
     this.circulosSatelites = [];
     this.cor = cor;
+    this.array = array;
 
     for (let i = 0; i < numCirculosSatelites; i++) {
       let angulo = map(i, 0, numCirculosSatelites, angSeletoresInicio, angSeletoresFim);
       let raio = this.diametroCentral * 1.3;
       let sateliteX = this.x + raio * cos(angulo);
       let sateliteY = this.y + raio * sin(angulo);
-      this.circulosSatelites.push(new SeletorCirculos(sateliteX, sateliteY, 50, i + 1, this.cor));
+      this.circulosSatelites.push(new SeletorCirculos(sateliteX, sateliteY, 50, i + 1, this.cor, array));
     }
   }
 
@@ -291,7 +306,7 @@ class BotaoCirculos {
 }
 
 class SeletorCirculos {
-  constructor(x, y, diametro, numero, cor) {
+  constructor(x, y, diametro, numero, cor, array) {
     this.x = x;
     this.y = y;
     this.diametro = diametro;
@@ -300,6 +315,9 @@ class SeletorCirculos {
     this.corOriginal = cor; // Adiciona uma propriedade para armazenar a cor original
     this.corNova = color(255, 165, 0); // Define a nova cor
     this.corAtual = cor; // Inicializa a cor atual com a cor original
+    this.array = array;
+    this.isSelected = false;
+    this.id = 0;
   }
 
   display() {
@@ -318,8 +336,22 @@ class SeletorCirculos {
     return d < this.diametro / 2;
   }
 
-  mudarCor() {
-    // Alterna entre a cor original e a nova cor
-    this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
+  mudarCor() {  
+    // Alterna entre a cor original e a nova cor apenas para o botão atual
+   // this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
+
+    //som
+    toggleVolume(this.array[this.numero-1]);
+    for (let i = 0; i < this.array.length; i++) {
+      if (i !== this.numero - 1) {
+        this.array[i].setVolume(0);
+      }
+    }
+
+    this.id = this.numero-1;
+  }
+
+  getId() {
+    return this.id;
   }
 }
