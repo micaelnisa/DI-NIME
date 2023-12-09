@@ -21,6 +21,10 @@ let fundogeral, fundogeralsvg;
 let speedSlider;
 //botoes
 let botaoCirculos = [];
+//drag
+let isDragging = false;
+let selectedSeletor = null;
+let offset = { x: 0, y: 0 };
 
 
 function preload(){
@@ -230,10 +234,33 @@ function touchStarted() {
     }
   }
 
-  for (let i = 1; i < botaoCirculos.length; i++) {
-    botaoCirculos[i].verificarToque(x, y);
+  if (gamestate === "jogar") {
+    for (let i = 1; i < botaoCirculos.length; i++) {
+      botaoCirculos[i].touchStarted();
+    }
   }
 }
+}
+
+function touchMoved() {
+  for (let j = 0; j < touches.length; j++) {
+    let x = touches[j].x;
+    let y = touches[j].y;
+
+    if (gamestate === "jogar") {
+      for (let i = 1; i < botaoCirculos.length; i++) {
+        botaoCirculos[i].touchMoved();
+      }
+    }
+  }
+}
+
+function touchEnded() {
+  if (gamestate === "jogar") {
+    for (let i = 1; i < botaoCirculos.length; i++) {
+      botaoCirculos[i].touchEnded();
+    }
+  }
 }
 
 
@@ -323,10 +350,53 @@ class BotaoCirculos {
     }
   }
 
+  mover(dx, dy) {
+    // Mover o BotaoCirculos
+    this.x += dx;
+    this.y += dy;
+  
+    // Mover os SeletorCirculos
+    for (let i = 0; i < this.numCirculosSatelites; i++) {
+      this.circulosSatelites[i].x += dx;
+      this.circulosSatelites[i].y += dy;
+    }
+  }
+
   verificarToque(px, py) {
     for (let i = 0; i < this.numCirculosSatelites; i++) {
       if (this.circulosSatelites[i].contains(px, py)) {
         this.circulosSatelites[i].mudarCor();
+      }
+    }
+  }
+
+  touchStarted() {
+    if (gamestate === "jogar") {
+      if (dist(touches[0].x, touches[0].y, this.x, this.y) < this.diametroCentral / 2) {
+        isDragging = true;
+        selectedSeletor = this;
+        offset.x = this.x - touches[0].x;
+        offset.y = this.y - touches[0].y;
+      }
+    }
+  }
+
+  touchMoved() {
+    if (gamestate === "jogar" && isDragging && selectedSeletor === this) {
+      // Calcular as diferenças nas posições
+      let dx = touches[0].x + offset.x - this.x;
+      let dy = touches[0].y + offset.y - this.y;
+  
+      // Chamar a função mover com as diferenças
+      this.mover(dx, dy);
+    }
+  }
+  
+
+  touchEnded() {
+    if (gamestate === "jogar") {
+      for (let i = 0; i < this.numCirculosSatelites; i++) {
+        this.circulosSatelites[i].touchEnded();
       }
     }
   }
@@ -359,6 +429,29 @@ exibir() {
     text(this.numero, this.x, this.y);
   }
   
+  touchStarted() {
+    if (this.contains(touches[0].x, touches[0].y)) {
+      // Iniciar o arrasto
+      isDragging = true;
+      selectedSeletor = this;
+      offset.x = this.x - touches[0].x;
+      offset.y = this.y - touches[0].y;
+    }
+  }
+
+  touchMoved() {
+    if (isDragging && selectedSeletor === this) {
+      // Atualizar a posição do seletor durante o arrasto
+      this.x = touches[0].x + offset.x;
+      this.y = touches[0].y + offset.y;
+    }
+  }
+
+  touchEnded() {
+    // Resetar o estado do arrasto quando o toque é encerrado
+    isDragging = false;
+    selectedSeletor = null;
+  }
 
   contains(px, py) {
     let d = dist(px, py, this.x, this.y);
