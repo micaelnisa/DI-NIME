@@ -183,7 +183,7 @@ function trocartext(){
 //------------- Play all sounds simultaneously with volume 0----
 function play() {
   allSounds.forEach(sound => {
-    sound.play();
+    sound.loop();
     sound.setVolume(0);
   });
 }
