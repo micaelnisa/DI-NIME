@@ -110,13 +110,13 @@ function setup() {
   speedSlider.hide();
   //botoes
     //melodia
-    botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 6, 0, PI, melodiasvg, corMelodia, melodias);
+    botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, melodiasvg, corMelodia, melodias);
     //apitos
-    botaoCirculos[2] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 6, PI, 0, apitossvg, corApitos, apitos);
+    botaoCirculos[2] = new BotaoCirculos2(windowWidth - windowWidth / 10, 0 + windowHeight / 5, 100, 5, PI, 0, apitossvg, corApitos, apitos);
     //graves
-    botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 6, -PI, 0, gravessvg, corGraves, baixos)  ;
+    botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, gravessvg, corGraves, baixos)  ;
     //percursão
-    botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 6, 0, -PI, percussaosvg, corPercussao, percussoes);
+    botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, percussaosvg, corPercussao, percussoes);
   
 }
 
@@ -182,7 +182,17 @@ function trocartext(){
 
 //------------- Play all sounds simultaneously with volume 0----
 function play() {
-  allSounds.forEach(sound => {
+  baixos.forEach(sound => {
+    sound.loop();
+    sound.setVolume(0);
+  });
+
+  melodias.forEach(sound => {
+    sound.loop();
+    sound.setVolume(0);
+  });
+
+  percussoes.forEach(sound => {
     sound.loop();
     sound.setVolume(0);
   });
@@ -192,6 +202,12 @@ function play() {
 function toggleVolume(sound) {
   // Toggle the volume between 0 and 1
   sound.setVolume(sound.getVolume() === 0 ? 1 : 0);
+}
+
+function playsom(sound) {
+  // Toggle the volume between 0 and 1
+  sound.setVolume(1);
+  sound.play();
 }
 
 //----------- CRIAR OS BOTOES PARA DAR TOGGLE-----
@@ -383,6 +399,92 @@ exibir() {
   getId() {
     return this.id;
   }
+}
+  class BotaoCirculos2 {
+    constructor(x, y, diametroCentral, numCirculosSatelites, angSeletoresInicio, angSeletoresFim, svg, cor, array) {
+      this.x = x;
+      this.y = y;
+      this.angSeletoresInicio = angSeletoresInicio;
+      this.angSeletoresFim = angSeletoresFim;
+      this.diametroCentral = diametroCentral;
+      this.numCirculosSatelites = numCirculosSatelites;
+      this.circulosSatelites = [];
+      this.cor = cor;
+      this.svg = svg;
+      this.array = array;
+  
+      for (let i = 0; i < numCirculosSatelites; i++) {
+        let angulo = map(i, 0, numCirculosSatelites, angSeletoresInicio, angSeletoresFim);
+        let raio = this.diametroCentral * 1.3;
+        let sateliteX = this.x + raio * cos(angulo);
+        let sateliteY = this.y + raio * sin(angulo);
+        this.circulosSatelites.push(new SeletorCirculos2(sateliteX, sateliteY, 50, i + 1, this.cor, array));   
+       }
+    }
+  
+    exibir() {
+      fill(this.cor);
+      image(this.svg, this.x - this.diametroCentral / 2, this.y - this.diametroCentral / 2, this.diametroCentral, this.diametroCentral);
+  
+      for (let i = 0; i < this.numCirculosSatelites; i++) {
+        this.circulosSatelites[i].exibir();
+      }
+    }
+  
+    verificarToque(px, py) {
+      for (let i = 0; i < this.numCirculosSatelites; i++) {
+        if (this.circulosSatelites[i].contains(px, py)) {
+          this.circulosSatelites[i].mudarCor();
+        }
+      }
+    }
+  }
+  
+  // BOLAS COM OS SONS DENTRO DO BOTAO CIRCULOS
+  class SeletorCirculos2 {
+    constructor(x, y, diametro, numero, cor, array) {
+      this.x = x;
+      this.y = y;
+      this.diametro = diametro;
+      this.numero = numero;
+      this.cor = cor;
+      this.corOriginal = cor; // Adiciona uma propriedade para armazenar a cor original
+      this.corNova = color(255, 165, 0); // Define a nova cor
+      this.corAtual = cor; // Inicializa a cor atual com a cor original
+      this.array = array;
+      this.isSelected = false;
+      this.id = 0;
+    }
+  
+  exibir() {
+      noStroke();
+      fill(this.corAtual);
+      ellipse(this.x, this.y, this.diametro, this.diametro);
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textStyle(BOLD);
+      textSize(24);
+      text(this.numero, this.x, this.y);
+    }
+    
+  
+    contains(px, py) {
+      let d = dist(px, py, this.x, this.y);
+      return d < this.diametro / 2;
+    }
+  
+    mudarCor() {  
+      // Alterna entre a cor original e a nova cor apenas para o botão atual
+     // this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
+  
+      //som
+      playsom(this.array[this.numero-1]);
+      
+    }
+  
+    getId() {
+      return this.id;
+    }
 }
 
 
