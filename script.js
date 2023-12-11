@@ -10,7 +10,7 @@ let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussa
 let indexText = 0;
 let instrucaoElementos = ['Pressione o elemento que pretende controlar.', 'Cada jogador deverá escolher entre 1 e 2 elementos.'];
 //gamestate instrucoes
-let instrucoes;
+let instrucoes, jogar;
 //gamestate jogar
 //sons
 let time = 0;
@@ -103,6 +103,13 @@ function setup() {
   botaoGraves = new Botao (width/2 + (width/8), height/2 + (width/8), gravessvg, width/7);
   setInterval(trocartext, 3000);
 
+  //gamestate instrucoes
+  jogar = createImg('svg/jogar.svg', 'Play');
+  jogar.position(width/2 - (width/8)/2 , height/2 + height/6 + (height/8)/2);
+  jogar.size(width/8, height/8);  
+  jogar.mousePressed(play); 
+
+
   //gamestate jogar
   //painel
   fundogeral = new painel (width/2, height/2, fundogeralsvg, width/4, height/5);
@@ -120,7 +127,7 @@ function setup() {
     playButton = createImg('svg/inicio.svg', 'Play');
     playButton.position(width/2 - width/9, height/2 - (height/8)/2);
     playButton.size(width/8, height/8);  
-    playButton.mousePressed(play);
+    playButton.mousePressed(play); 
 
     //botoes
     //melodia
@@ -145,6 +152,7 @@ function draw() {
 
   if (gamestate === "inicio") {
     inicioButton.exibir();
+    jogar.hide();
     playButton.hide();
     speedSlider.hide();
   } else if (gamestate === "elementos") {
@@ -153,6 +161,7 @@ function draw() {
     botaoApitos.exibir();
     botaoGraves.exibir();
 
+    jogar.hide();
     speedSlider.hide();
 
     //elementos
@@ -168,15 +177,20 @@ function draw() {
     text(instrucaoElementos[indexText], 0, 0);
     pop();
   }else if (gamestate === "instrucoes"){
-    playButton.show();
+    playButton.hide();
+    jogar.show();
     speedSlider.hide();
-    image(instrucoes, width/4, height/4, width - width/4, height - height/4);
+    push();
+    imageMode(CENTER);
+    image(instrucoes, width/2, height/2, width - width/4, height - height/4);
+    pop();
   }else if (gamestate === "jogar") {
     playButton.show();
     speedSlider.show();
     fundogeral.exibir();
     botaoinstrucoes.exibir();
     fechar.exibir();
+    jogar.hide();
 
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].exibir();
@@ -293,7 +307,7 @@ function touchStarted() {
     }
   }
   
-  if (gamestate == "instrucoes" && verificar(playButton, x, y)) {
+  if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate ="jogar";
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
     gamestate = "inicio";
