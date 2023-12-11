@@ -312,7 +312,10 @@ function touchStarted() {
   if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate ="jogar";
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
+    sound.stop();
+    
     gamestate = "inicio";
+
   } else if (gamestate == "jogar" && botaoinstrucoes.contains(x, y)) {
     gamestate = "instrucoes";
   }
