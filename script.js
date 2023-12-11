@@ -1,6 +1,7 @@
 let gamestate = "inicio";
 let canvas;
 let corMelodia, corPercussao, corApitos, corGraves;
+let isPlaying = false;
 
 //gamestate inicio
 let inicioButton, iniciosvg;
@@ -185,20 +186,43 @@ function trocartext(){
 
 //------------- Play all sounds simultaneously with volume 0----
 function play() {
-  baixos.forEach(sound => {
-    sound.loop();
-    sound.setVolume(0);
-  });
 
-  melodias.forEach(sound => {
-    sound.loop();
-    sound.setVolume(0);
-  });
+  if (isPlaying) {
 
-  percussoes.forEach(sound => {
-    sound.loop();
-    sound.setVolume(0);
-  });
+    baixos.forEach(sound => {
+      sound.stop();
+      sound.setVolume(0);
+    });
+  
+    melodias.forEach(sound => {
+      sound.stop();
+      sound.setVolume(0);
+    });
+  
+    percussoes.forEach(sound => {
+      sound.stop();
+      sound.setVolume(0);
+    });
+  } else {
+
+    baixos.forEach(sound => {
+      sound.stop();
+      sound.loop();
+      sound.setVolume(0);
+    });
+  
+    melodias.forEach(sound => {
+      sound.stop();
+      sound.loop();
+      sound.setVolume(0);
+    });
+  
+    percussoes.forEach(sound => {
+      sound.stop();
+      sound.loop();
+      sound.setVolume(0);
+    });
+  }
 }
 
 //-------------FAZER O TOGGLE DO SOM-----------
@@ -489,12 +513,3 @@ class Botao {
         return this.id;
       }
   }
-  
-  
-  
-  
-  
-  
-  
-  
-
