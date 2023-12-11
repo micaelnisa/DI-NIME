@@ -105,19 +105,20 @@ function setup() {
 
   //gamestate jogar
   //painel
-  fundogeral = new painel (width/2, height/2, fundogeralsvg, width/4, width/6);
-  botaoinstrucoes = new Botao (width/2, height/2, botaoinstrucoessvg, width/5);
+  fundogeral = new painel (width/2, height/2, fundogeralsvg, width/4, height/5);
+  botaoinstrucoes = new Botao (width/2 + width/12, height/2 - width/30, botaoinstrucoessvg, width/20);
+  fechar = new Botao (width/2 + width/12, height/2 + width/30, fecharsvg, width/20);
 
   //SpeedSlider
   speedSlider = createSlider(0.5, 1.5, 1, 0.1);
-  speedSlider.position(width/2 + 40, height/2);
-  speedSlider.style('width', 'fundogeral.h/9');
+  speedSlider.position(width/2 - width/27 , height/2 - (height/8)/2);
+  speedSlider.size(height/6, height/8);
   speedSlider.style('rotate', '90deg');
   speedSlider.hide();
 
   //play
     playButton = createImg('svg/inicio.svg', 'Play');
-    playButton.position(width/2 + 20 - width/8, height/2 - height/8 + 55);
+    playButton.position(width/2 - width/9, height/2 - (height/8)/2);
     playButton.size(width/8, height/8);  // Defina o tamanho do botão conforme necessário
     playButton.mousePressed(play);
   
@@ -175,6 +176,7 @@ function draw() {
     speedSlider.show();
     fundogeral.exibir();
     botaoinstrucoes.exibir();
+    fechar.exibir();
 
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].exibir();
