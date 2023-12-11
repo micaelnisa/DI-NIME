@@ -298,7 +298,7 @@ function touchStarted() {
   if (gamestate === "inicio" && inicioButton.contains(x, y)) {
     gamestate = "elementos";
   } //experimentar codigo numa cena touch
-   else if (gamestate === "elementos" && botaoMelodia.contains(x, y) && botaoGraves.contains(x, y) && botaoApitos.contains(x, y) && botaoPercussao.contains(x, y)) {
+   else if (gamestate === "elementos" /*&& botaoMelodia.contains(x, y) && botaoGraves.contains(x, y) && botaoApitos.contains(x, y) && botaoPercussao.contains(x, y)*/) {
     botaoMelodia.verificarToque(x, y);
     botaoGraves.verificarToque(x, y);
     botaoApitos.verificarToque(x, y);
