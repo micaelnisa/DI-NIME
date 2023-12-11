@@ -189,7 +189,7 @@ function draw() {
     jogar.hide();
     push();
     imageMode(CENTER);
-    image(fundogeralsvg, width/2, height/2, width/4, height/5);
+    image(fundogeralsvg, width/2, height/2, width/3, height/4);
     pop();
     botaoinstrucoes.exibir();
     fechar.exibir();
