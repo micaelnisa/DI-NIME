@@ -21,6 +21,7 @@ let melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, ba
 //painel
 let fundogeral, fundogeralsvg;
 let speedSlider;
+let botaoinstrucoes, botaoinstrucoessvg, fechar, fecharsvg;
 //botoes
 let botaoCirculos = [];
 
@@ -39,6 +40,8 @@ function preload(){
   instrucoes = loadImage('svg/instrucoes.svg');
   //gamestate jogar
   fundogeralsvg = loadImage('svg/fundopainelgeral.svg');
+  botaoinstrucoessvg = loadImage('svg/botaoinstrucoes.svg');
+  fecharsvg = loadImage('svg/fechar.svg')
 
     // MELODIAS
     melodia1 = loadSound("som/Melodia_1.mp3");
@@ -100,8 +103,10 @@ function setup() {
   botaoGraves = new Botao (width/2 + (width/8), height/2 + (width/8), gravessvg, width/7);
   setInterval(trocartext, 3000);
 
+  //gamestate jogar
   //painel
   fundogeral = new painel (width/2, height/2, fundogeralsvg, width/4, width/6);
+  botaoinstrucoes = new Botao (width/2, height/2, botaoinstrucoessvg, width/5);
 
   //SpeedSlider
   speedSlider = createSlider(0.5, 1.5, 1, 0.1);
@@ -109,13 +114,14 @@ function setup() {
   speedSlider.style('width', 'fundogeral.h/9');
   speedSlider.style('rotate', '90deg');
   speedSlider.hide();
-    //gamestate jogar
+
+  //play
     playButton = createImg('svg/inicio.svg', 'Play');
     playButton.position(width/2 + 20 - width/8, height/2 - height/8 + 55);
-    //playButton.position(width/2 - fundogeral.w/2, height/2 - fundogeral.h/3);
     playButton.size(width/8, height/8);  // Defina o tamanho do botão conforme necessário
     playButton.mousePressed(play);
-  //botoes
+  
+    //botoes
     //melodia
     botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, melodiasvg, corMelodia, melodias);
     //apitos
@@ -168,6 +174,7 @@ function draw() {
     playButton.show();
     speedSlider.show();
     fundogeral.exibir();
+    botaoinstrucoes.exibir();
 
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].exibir();
