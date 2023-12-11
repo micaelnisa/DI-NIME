@@ -19,7 +19,7 @@ let playButton;
 let allSounds = [];
 let melodia1, melodia2, melodia3, melodia4, melodia5, baixo1, baixo2, baixo3, baixo4, baixo5, perc1, perc2, perc3, perc4, perc5, apito1, apito2, apito3, apito4, apito5;
 //painel
-let fundogeral, fundogeralsvg;
+let fundogeralsvg;
 let speedSlider;
 let botaoinstrucoes, botaoinstrucoessvg, fechar, fecharsvg;
 //botoes
@@ -112,7 +112,6 @@ function setup() {
 
   //gamestate jogar
   //painel
-  fundogeral = new painel (width/2, height/2, fundogeralsvg, width/4, height/5);
   botaoinstrucoes = new Botao (width/2 + width/12, height/2 - width/30, botaoinstrucoessvg, width/20);
   fechar = new Botao (width/2 + width/12, height/2 + width/30, fecharsvg, width/20);
 
@@ -187,10 +186,13 @@ function draw() {
   }else if (gamestate === "jogar") {
     playButton.show();
     speedSlider.show();
-    fundogeral.exibir();
+    jogar.hide();
+    push();
+    imageMode(CENTER);
+    image(fundogeralsvg, width/2, height/2, width/4, height/5);
+    pop();
     botaoinstrucoes.exibir();
     fechar.exibir();
-    jogar.hide();
 
     for (let i = 1; i < botaoCirculos.length; i++) {
       botaoCirculos[i].exibir();
@@ -360,21 +362,7 @@ class Botao {
     }
   }
   
-  //PAINEL CENTRAL DA GAMESTATE JOGAR
-  class painel {
-    constructor(x, y, svg, w, h) {
-      this.x = x;
-      this.y = y;
-      this.svg = svg;
-      this.w = w;
-      this.h = h;
-    }
-  
-    exibir() {
-      image(this.svg, this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-    }
-  
-  }
+
   
   //BOTAO PRINCIPAL ONDE CONSEGUIMOS FAZER PREVIEW DO SOM
   class BotaoCirculos {
