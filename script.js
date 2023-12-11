@@ -172,7 +172,7 @@ function draw() {
     text(instrucaoElementos[indexText], width / 2, height - (height / 5));
 
     push();
-    translate(width / 2, height/8);
+    translate(width / 2, height/5);
     rotate(PI);
     text(instrucaoElementos[indexText], 0, 0);
     pop();
