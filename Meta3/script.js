@@ -189,7 +189,7 @@ function draw() {
     jogar.hide();
     push();
     imageMode(CENTER);
-    image(fundogeralsvg, width/2 , height/2 , width/2, height/2);
+    image(fundogeralsvg, width/2, height/2, width/4, height/5);
     pop();
     botaoinstrucoes.exibir();
     fechar.exibir();
@@ -313,7 +313,7 @@ function touchStarted() {
       gamestate ="jogar";
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
     sound.stop();
-    
+
     gamestate = "inicio";
 
   } else if (gamestate == "jogar" && botaoinstrucoes.contains(x, y)) {
