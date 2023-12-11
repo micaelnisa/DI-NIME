@@ -106,9 +106,8 @@ function setup() {
   //gamestate instrucoes
   jogar = createImg('svg/jogar.svg', 'Play');
   jogar.position(width/2 - (width/8)/2 , height/2 + height/6 + (height/8)/2);
-  jogar.size(width/8, height/8);  
-  jogar.mousePressed(play); 
-
+  jogar.size(width/8, height/8); 
+  jogar.mousePressed(play);  
 
   //gamestate jogar
   //painel
@@ -311,9 +310,9 @@ function touchStarted() {
   
   if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate ="jogar";
+      
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
-    sound.stop();
-
+    //sound.stop();
     gamestate = "inicio";
 
   } else if (gamestate == "jogar" && botaoinstrucoes.contains(x, y)) {
