@@ -97,10 +97,10 @@ function setup() {
   inicioButton = new Botao (width/2, height/2, iniciosvg, width/5);
 
   //gamestate elementos (to a usar width para definir diametro e posicao para ser kinda responsivo)
-  botaoMelodia = new Botao (width/2 - (width/8), height/2 - (width/8), melodiasvg, width/7);
-  botaoPercussao = new Botao (width/2 + (width/8), height/2 - (width/8), percussaosvg, width/7);
-  botaoApitos = new Botao (width/2 - (width/8), height/2 + (width/8), apitossvg, width/7);
-  botaoGraves = new Botao (width/2 + (width/8), height/2 + (width/8), gravessvg, width/7);
+  botaoMelodia = new Botao (width/2 - (width/10), height/2 - (height/10), melodiasvg, width/10);
+  botaoPercussao = new Botao (width/2 + (width/10), height/2 - (height/10), percussaosvg, width/10);
+  botaoApitos = new Botao (width/2 - (width/10), height/2 + (height/10), apitossvg, width/10);
+  botaoGraves = new Botao (width/2 + (width/10), height/2 + (height/10), gravessvg, width/10);
   setInterval(trocartext, 3000);
 
   //gamestate instrucoes
@@ -169,10 +169,10 @@ function draw() {
     textSize(width / 40);
     fill(255);
 
-    text(instrucaoElementos[indexText], width / 2, height - (height / 9));
+    text(instrucaoElementos[indexText], width / 2, height - (height / 5));
 
     push();
-    translate(width / 2, height / 9);
+    translate(width / 2, height/8);
     rotate(PI);
     text(instrucaoElementos[indexText], 0, 0);
     pop();
