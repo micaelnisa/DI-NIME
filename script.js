@@ -9,7 +9,8 @@ let inicioButton, iniciosvg;
 let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussaosvg, apitossvg, gravessvg;
 let indexText = 0;
 let instrucaoElementos = ['Pressione o elemento que pretende controlar.', 'Cada jogador deverá escolher entre 1 e 2 elementos.'];
-
+//gamestate instrucoes
+let closeButton;
 //gamestate jogar
 //sons
 let time = 0;
@@ -89,7 +90,6 @@ function setup() {
 
   //gamestate inicio
   inicioButton = new Botao (width/2, height/2, iniciosvg, width/5);
-  //inicioButton.mousePressed(play);
 
   //gamestate elementos (to a usar width para definir diametro e posicao para ser kinda responsivo)
   botaoMelodia = new Botao (width/2 - (width/8), height/2 - (width/8), melodiasvg, width/7);
@@ -158,7 +158,10 @@ function draw() {
     rotate(PI);
     text(instrucaoElementos[indexText], 0, 0);
     pop();
-  } else if (gamestate === "jogar") {
+  }else if (gamestate === "instrucoes"){
+    playButton.hide();
+    speedSlider.hide();
+  }else if (gamestate === "jogar") {
     playButton.show();
     speedSlider.show();
     fundogeral.exibir();
@@ -269,7 +272,7 @@ function touchStarted() {
     botaoApitos.verificarToque(x, y);
     botaoPercussao.verificarToque(x, y);
     if (botaoMelodia.selecionada && botaoApitos.selecionada && botaoGraves.selecionada && botaoPercussao.selecionada) {
-      gamestate = "jogar";
+      gamestate = "instrucoes";
     }
   }
 
