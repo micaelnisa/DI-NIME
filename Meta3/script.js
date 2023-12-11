@@ -181,7 +181,7 @@ function draw() {
     speedSlider.hide();
     push();
     imageMode(CENTER);
-    image(instrucoes, width/2, height/2, width - width/4, height - height/4);
+    image(instrucoes, width/2, height/2, width - width/4, height - height/5);
     pop();
   }else if (gamestate === "jogar") {
     playButton.show();
