@@ -9,7 +9,8 @@ let inicioButton, iniciosvg;
 let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussaosvg, apitossvg, gravessvg;
 let indexText = 0;
 let instrucaoElementos = ['Pressione o elemento que pretende controlar.', 'Cada jogador deverá escolher entre 1 e 2 elementos.'];
-
+//gamestate instrucoes
+let instrucoes;
 //gamestate jogar
 //sons
 let time = 0;
@@ -34,6 +35,8 @@ function preload(){
   apitossvg = loadImage('svg/botaoApitos.svg');
   gravessvg = loadImage('svg/botaoGraves.svg');
 
+  //gamstate instrucoes
+  instrucoes = loadImage('svg/instrucoes.svg');
   //gamestate jogar
   fundogeralsvg = loadImage('svg/fundopainelgeral.svg');
 
@@ -89,7 +92,6 @@ function setup() {
 
   //gamestate inicio
   inicioButton = new Botao (width/2, height/2, iniciosvg, width/5);
-  //inicioButton.mousePressed(play);
 
   //gamestate elementos (to a usar width para definir diametro e posicao para ser kinda responsivo)
   botaoMelodia = new Botao (width/2 - (width/8), height/2 - (width/8), melodiasvg, width/7);
@@ -100,6 +102,7 @@ function setup() {
 
   //painel
   fundogeral = new painel (width/2, height/2, fundogeralsvg, width/4, width/6);
+
   //SpeedSlider
   speedSlider = createSlider(0.5, 1.5, 1, 0.1);
   speedSlider.position(width/2 + 40, height/2);
@@ -158,7 +161,10 @@ function draw() {
     rotate(PI);
     text(instrucaoElementos[indexText], 0, 0);
     pop();
-  } else if (gamestate === "jogar") {
+  }else if (gamestate === "instrucoes"){
+    playButton.show();
+    image(instrucoes, width/4, height/4, width - width/4, height - height/4);
+  }else if (gamestate === "jogar") {
     playButton.show();
     speedSlider.show();
     fundogeral.exibir();
@@ -173,6 +179,11 @@ function draw() {
     sound.rate(playbackSpeed);
   });
 
+}
+//verificar toque 
+function verificar(button, x, y) {
+  return x > button.position().x && x < button.position().x + button.width &&
+         y > button.position().y && y < button.position().y + button.height;
 }
 
 //----------TROCAR TEXTO NA PAGINA ELEMENTOS--------------------
@@ -269,8 +280,12 @@ function touchStarted() {
     botaoApitos.verificarToque(x, y);
     botaoPercussao.verificarToque(x, y);
     if (botaoMelodia.selecionada && botaoApitos.selecionada && botaoGraves.selecionada && botaoPercussao.selecionada) {
-      gamestate = "jogar";
+      gamestate = "instrucoes";
     }
+  }
+  
+  if (gamestate == "instrucoes" && verificar(playButton, x, y)) {
+      gamestate ="jogar";
   }
 
   for (let i = 1; i < botaoCirculos.length; i++) {
