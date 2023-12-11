@@ -119,9 +119,9 @@ function setup() {
   //play
     playButton = createImg('svg/inicio.svg', 'Play');
     playButton.position(width/2 - width/9, height/2 - (height/8)/2);
-    playButton.size(width/8, height/8);  // Defina o tamanho do botão conforme necessário
+    playButton.size(width/8, height/8);  
     playButton.mousePressed(play);
-  
+
     //botoes
     //melodia
     botaoCirculos[1] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight / 6, 100, 5, 0, PI, melodiasvg, corMelodia, melodias);
@@ -153,10 +153,9 @@ function draw() {
     botaoApitos.exibir();
     botaoGraves.exibir();
 
-    playButton.hide();
     speedSlider.hide();
 
-    //instruções
+    //elementos
     textAlign(CENTER, CENTER);
     textSize(width / 40);
     fill(255);
@@ -170,6 +169,7 @@ function draw() {
     pop();
   }else if (gamestate === "instrucoes"){
     playButton.show();
+    speedSlider.hide();
     image(instrucoes, width/4, height/4, width - width/4, height - height/4);
   }else if (gamestate === "jogar") {
     playButton.show();
@@ -295,6 +295,10 @@ function touchStarted() {
   
   if (gamestate == "instrucoes" && verificar(playButton, x, y)) {
       gamestate ="jogar";
+  }else if (gamestate == "jogar" && fechar.contains(x, y)) {
+    gamestate = "inicio";
+  } else if (gamestate == "jogar" && botaoinstrucoes.contains(x, y)) {
+    gamestate = "instrucoes";
   }
 
   for (let i = 1; i < botaoCirculos.length; i++) {
