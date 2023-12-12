@@ -191,14 +191,14 @@ function draw() {
     speedSlider.hide();
     push();
     imageMode(CENTER);
-    image(instrucoes, windowWidth/2 - (width/4) , windowHeight/2, width/2, height/2);
+    image(instrucoes, windowWidth/2 - (width/4) , windowHeight/2, width/2, height/1.6);
     pop();
 
     push();
     imageMode(CENTER);
     translate(windowWidth / 2 + (width/2) / 2, windowHeight / 2);
     rotate(PI); 
-    image(instrucoes, 0, 0, width/2, height/2);
+    image(instrucoes, 0, 0, width/2, height/1.6);
     pop();
   }else if (gamestate === "jogar") {
     playButton.show();
