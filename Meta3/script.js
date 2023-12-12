@@ -8,7 +8,7 @@ let inicioButton, iniciosvg;
 //gamestate elementos
 let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussaosvg, apitossvg, gravessvg;
 let indexText = 0;
-let instrucaoElementos = ['Pressione o elemento que pretende controlar.', 'Cada jogador deverá escolher entre 1 e 2 elementos.'];
+let instrucaoElementos = ['Garanta que todos estão prontos para começar.', 'Todos os instrumentos devem ser selecionados'];
 //gamestate instrucoes
 let instrucoes, jogar;
 //gamestate jogar
