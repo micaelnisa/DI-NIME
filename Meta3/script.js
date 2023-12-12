@@ -313,7 +313,7 @@ function touchStarted() {
       
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
     //sound.stop();
-    gamestate = "inicio";
+    location.reload();
 
   } else if (gamestate == "jogar" && botaoinstrucoes.contains(x, y)) {
     gamestate = "instrucoes";
