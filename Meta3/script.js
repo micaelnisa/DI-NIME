@@ -105,7 +105,7 @@ function setup() {
 
   //gamestate instrucoes
   jogar = createImg('svg/jogar.svg', 'Play');
-  jogar.position(width/2 - (width/8)/2 , height/2 + height/6 + (height/8)/2);
+  jogar.position(width/2 - (width/8)/2 , height/2 + height/5 + (height/6)/2);
   jogar.size(width/8, height/8); 
 
 
