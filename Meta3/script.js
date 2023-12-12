@@ -442,15 +442,11 @@ class Botao {
   
     mudarCor() {  
       // Alterna entre a cor original e a nova cor apenas para o botão atual
-     // this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
+      this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
   
       //som
       toggleVolume(this.array[this.numero-1]);
-      for (let i = 0; i < this.array.length; i++) {
-        if (i !== this.numero - 1) {
-          this.array[i].setVolume(0);
-        }
-      }
+      
   
       this.id = this.numero-1;
     }
