@@ -113,7 +113,7 @@ function setup() {
 
   push();
   jogar2 = createImg('svg/jogar2.svg', 'Play');
-  jogar2.position(width/2 - (width/8)/2 , height/2 - height/6 - (height/8)/2);
+  jogar2.position(width/2 - (width/8)/2 , 0 + (height/6)/2);
   jogar2.size(width/8, height/8); 
   pop();
   
@@ -346,6 +346,8 @@ function touchStarted() {
   
   if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate ="jogar";
+  }else if (gamestate == "instrucoes" && verificar(jogar2, x, y)){
+    gamestate ="jogar";
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
     //sound.stop();
     location.reload();
