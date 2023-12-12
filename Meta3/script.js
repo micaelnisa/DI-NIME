@@ -123,7 +123,7 @@ function setup() {
 
   //play
     playButton = createImg('svg/inicio.svg', 'Play');
-    playButton.position(width/2 - width/9, height/2 - (height/8)/2);
+    playButton.position(width/2 - width/7, height/2 - (height/8)/2);
     playButton.size(width/8, height/8);  
     playButton.mousePressed(play); 
 
