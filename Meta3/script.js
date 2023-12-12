@@ -363,6 +363,8 @@ function touchStarted() {
   
   if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate ="jogar";
+  }else if (gamestate == "instrucoes" && verificar(jogar2, x, y)) {
+        gamestate ="jogar";
   }else if (gamestate == "instrucoes" && verificar(jogar2, x, y)){
     gamestate ="jogar";
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
@@ -377,7 +379,7 @@ function touchStarted() {
     botaoCirculos[i].verificarToque(x, y);
   }
 }
-}
+
 
 
 //------CLASSES--------------
