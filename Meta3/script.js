@@ -342,7 +342,7 @@ function touchStarted() {
     botaoApitos.verificarToque(x, y);
     botaoPercussao.verificarToque(x, y);
     if (botaoMelodia.selecionada && botaoApitos.selecionada && botaoGraves.selecionada && botaoPercussao.selecionada) {
-      gamestate = "instrucoes";
+      gamestate = "jogar";
     }
   }
   
