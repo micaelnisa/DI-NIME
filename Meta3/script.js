@@ -107,14 +107,13 @@ function setup() {
   jogar = createImg('svg/jogar.svg', 'Play');
   jogar.position(width/2 - (width/8)/2 , height/2 + height/6 + (height/8)/2);
   jogar.size(width/8, height/8); 
-  jogar.mousePressed(play);  
 
 
   push();
   jogar2 = createImg('svg/jogar.svg', 'Play');
+  jogar2.style('rotate','180g');
   jogar2.position(width/2 - (width/8)/2 , height/2 - height/6 - (height/8)/2);
   jogar2.size(width/8, height/8); 
-  jogar2.mousePressed(play);  
   pop();
   
   //gamestate jogar
