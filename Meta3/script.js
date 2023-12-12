@@ -118,7 +118,7 @@ function setup() {
   speedSlider = createSlider(0.5, 1.5, 1, 0.1);
   speedSlider.position(width/2 - width/27 , height/2 - (height/8)/2);
   speedSlider.size(height/6, height/8);
-  speedSlider.style('rotate', '90deg');
+  speedSlider.style('rotate', '-90deg');
   speedSlider.hide();
 
   //play
