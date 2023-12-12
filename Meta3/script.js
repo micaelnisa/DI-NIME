@@ -4,7 +4,7 @@ let corMelodia, corPercussao, corApitos, corGraves;
 let isPlaying = false;
 
 //gamestate inicio
-let inicioButton, iniciosvg, tecno;
+let inicioButton, iniciosvg, tecno, tecno2;
 //gamestate elementos
 let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussaosvg, apitossvg, gravessvg;
 let indexText = 0;
@@ -30,6 +30,7 @@ function preload(){
   //gamestate inicio
   iniciosvg = loadImage('svg/inicio.svg');
   tecno = loadImage('svg/techno.svg');
+  tecno2 = loadImage('svg/techno2.svg');
 
   //gamestate elementos
   melodiasvg = loadImage('svg/botaoMelodia.svg');
@@ -165,7 +166,18 @@ function draw() {
 
     push();
     imageMode(CENTER);
-    image(tecno, windowWidth/2 , windowHeight/2, width/4, height/4);
+    let proporcao = tecno.width / tecno.height;
+    let novaAltura = (width / 4) * 2 / proporcao;
+    let novaLargura = (width / 4) * 2; 
+    image(tecno, windowWidth/2 , windowHeight - windowHeight/4 , novaLargura, novaAltura);
+    pop();
+
+    push();
+    imageMode(CENTER);
+    let proporcao2 = tecno2.width / tecno2.height;
+    let novaAltura2 = (width / 4) * 2 / proporcao2;
+    let novaLargura2 = width / 4 * 2; 
+    image(tecno2, windowWidth/2 , windowHeight/4 , novaLargura2, novaAltura2);
     pop();
 
   } else if (gamestate === "elementos") {
