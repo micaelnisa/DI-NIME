@@ -348,7 +348,9 @@ function touchStarted() {
 
     if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate = "jogar";
-    } else if (gamestate == "jogar" && fechar.contains(x, y)) {
+    } else if(gamestate == "instrucoes" && verificar(jogar2, x, y)) {
+      gamestate = "jogar";
+    }else if (gamestate == "jogar" && fechar.contains(x, y)) {
       //sound.stop();
       location.reload();
 
