@@ -144,7 +144,7 @@ function setup() {
     botaoCirculos[3] = new BotaoCirculos(windowWidth - windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, -PI, 0, gravessvg, corGraves, baixos)  ;
     //percursão
     botaoCirculos[4] = new BotaoCirculos(windowWidth / 10, 0 + windowHeight - windowHeight / 6, 100, 5, 0, -PI, percussaosvg, corPercussao, percussoes);
-  
+  play();
 }
 
 function draw() {
