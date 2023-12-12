@@ -25,7 +25,6 @@ let botaoinstrucoes, botaoinstrucoessvg, fechar, fecharsvg;
 //botoes
 let botaoCirculos = [];
 
-
 function preload(){
   //gamestate inicio
   iniciosvg = loadImage('svg/inicio.svg');
@@ -220,8 +219,8 @@ function draw() {
   allSounds.forEach(sound => {
     sound.rate(playbackSpeed);
   });
-
 }
+
 //verificar toque 
 function verificar(button, x, y) {
   return x > button.position().x && x < button.position().x + button.width &&
@@ -240,6 +239,9 @@ function trocartext(){
 //------------- Play all sounds simultaneously with volume 0----
 function play() {
 
+  botaoCirculos[1].retirarCorNova();
+  botaoCirculos[3].retirarCorNova();
+  botaoCirculos[4].retirarCorNova();
   if (isPlaying) {
 
     baixos.forEach(sound => {
@@ -414,6 +416,12 @@ class Botao {
         this.circulosSatelites[i].exibir();
       }
     }
+
+    retirarCorNova() {
+      for (let i = 0; i < this.numCirculosSatelites; i++) {
+        this.circulosSatelites[i].resetCor();
+      }
+    }
   
     verificarToque(px, py) {
       for (let i = 0; i < this.numCirculosSatelites; i++) {
@@ -466,6 +474,11 @@ class Botao {
       
   
       this.id = this.numero-1;
+    }
+
+    
+    resetCor() {
+      this.corAtual = this.corOriginal;
     }
   
     getId() {
