@@ -4,7 +4,7 @@ let corMelodia, corPercussao, corApitos, corGraves;
 let isPlaying = false;
 
 //gamestate inicio
-let inicioButton, iniciosvg;
+let inicioButton, iniciosvg, tecno;
 //gamestate elementos
 let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussaosvg, apitossvg, gravessvg;
 let indexText = 0;
@@ -29,6 +29,7 @@ let botaoCirculos = [];
 function preload(){
   //gamestate inicio
   iniciosvg = loadImage('svg/inicio.svg');
+  tecno = loadImage('svg/techno.svg');
 
   //gamestate elementos
   melodiasvg = loadImage('svg/botaoMelodia.svg');
@@ -161,6 +162,12 @@ function draw() {
     jogar2.hide();
     playButton.hide();
     speedSlider.hide();
+
+    push();
+    imageMode(CENTER);
+    image(tecno, windowWidth/2 , windowHeight/2, width/4, height/4);
+    pop();
+
   } else if (gamestate === "elementos") {
     botaoMelodia.exibir();
     botaoPercussao.exibir();
