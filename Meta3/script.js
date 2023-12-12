@@ -110,6 +110,13 @@ function setup() {
   jogar.mousePressed(play);  
 
 
+  push();
+  jogar2 = createImg('svg/jogar.svg', 'Play');
+  jogar2.position(width/2 - (width/8)/2 , height/2 - height/6 - (height/8)/2);
+  jogar2.size(width/8, height/8); 
+  jogar2.mousePressed(play);  
+  pop();
+  
   //gamestate jogar
   //painel
   botaoinstrucoes = new Botao (width/2 + width/12, height/2 - width/30, botaoinstrucoessvg, width/20);
@@ -119,7 +126,7 @@ function setup() {
   speedSlider = createSlider(0.5, 1.5, 1, 0.1);
   speedSlider.position(width/2 - width/27 , height/2 - (height/8)/2);
   speedSlider.size(height/6, height/8);
-  speedSlider.style('rotate', '-90deg');
+  speedSlider.style('rotate', '90deg');
   speedSlider.hide();
 
   //play
@@ -152,6 +159,7 @@ function draw() {
   if (gamestate === "inicio") {
     inicioButton.exibir();
     jogar.hide();
+    jogar2.hide();
     playButton.hide();
     speedSlider.hide();
   } else if (gamestate === "elementos") {
@@ -161,6 +169,7 @@ function draw() {
     botaoGraves.exibir();
 
     jogar.hide();
+    jogar2.hide();
     speedSlider.hide();
 
     //elementos
@@ -178,6 +187,7 @@ function draw() {
   }else if (gamestate === "instrucoes"){
     playButton.hide();
     jogar.show();
+    jogar2.show();
     speedSlider.hide();
     push();
     imageMode(CENTER);
@@ -194,6 +204,7 @@ function draw() {
     playButton.show();
     speedSlider.show();
     jogar.hide();
+    jogar2.hide();
     push();
     imageMode(CENTER);
     image(fundogeralsvg, width/2, height/2, width/3, height/4);
@@ -318,7 +329,6 @@ function touchStarted() {
   
   if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate ="jogar";
-      
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
     //sound.stop();
     location.reload();
