@@ -10,7 +10,7 @@ let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussa
 let indexText = 0;
 let instrucaoElementos = ['Garanta que todos estão prontos para começar.', 'Todos os instrumentos devem ser selecionados'];
 //gamestate instrucoes
-let instrucoes, jogar;
+let instrucoes, jogar, jogar2;
 //gamestate jogar
 //sons
 let time = 0;
@@ -109,6 +109,7 @@ function setup() {
   jogar.size(width/8, height/8); 
   jogar.mousePressed(play);  
 
+
   //gamestate jogar
   //painel
   botaoinstrucoes = new Botao (width/2 + width/12, height/2 - width/30, botaoinstrucoessvg, width/20);
@@ -180,7 +181,14 @@ function draw() {
     speedSlider.hide();
     push();
     imageMode(CENTER);
-    image(instrucoes, width/2, height/2, width - width/4, height - height/5);
+    image(instrucoes, windowWidth/2 - (width/4) , windowHeight/2, width/2, height/2);
+    pop();
+
+    push();
+    imageMode(CENTER);
+    translate(windowWidth / 2 + (width/2) / 2, windowHeight / 2);
+    rotate(PI); 
+    image(instrucoes, 0, 0, width/2, height/2);
     pop();
   }else if (gamestate === "jogar") {
     playButton.show();
