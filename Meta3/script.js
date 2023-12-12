@@ -4,13 +4,13 @@ let corMelodia, corPercussao, corApitos, corGraves;
 let isPlaying = false;
 
 //gamestate inicio
-let inicioButton, iniciosvg;
+let inicioButton, iniciosvg, tecno, tecno2;
 //gamestate elementos
 let botaoMelodia, botaoPercussao, botaoApitos, botaoGraves, melodiasvg, percussaosvg, apitossvg, gravessvg;
 let indexText = 0;
-let instrucaoElementos = ['Pressione o elemento que pretende controlar.', 'Cada jogador deverá escolher entre 1 e 2 elementos.'];
+let instrucaoElementos = ['Garanta que todos estão prontos para começar.', 'Todos os instrumentos devem ser selecionados'];
 //gamestate instrucoes
-let instrucoes, jogar;
+let instrucoes, jogar, jogar2;
 //gamestate jogar
 //sons
 let time = 0;
@@ -25,10 +25,11 @@ let botaoinstrucoes, botaoinstrucoessvg, fechar, fecharsvg;
 //botoes
 let botaoCirculos = [];
 
-
 function preload(){
   //gamestate inicio
   iniciosvg = loadImage('svg/inicio.svg');
+  tecno = loadImage('svg/techno.svg');
+  tecno2 = loadImage('svg/techno2.svg');
 
   //gamestate elementos
   melodiasvg = loadImage('svg/botaoMelodia.svg');
@@ -105,10 +106,17 @@ function setup() {
 
   //gamestate instrucoes
   jogar = createImg('svg/jogar.svg', 'Play');
-  jogar.position(width/2 - (width/8)/2 , height/2 + height/6 + (height/8)/2);
+  jogar.position(width/2 - (width/8)/2 , height/2 + height/5 + (height/6)/2);
   jogar.size(width/8, height/8); 
-  jogar.mousePressed(play);  
 
+
+  push();
+  jogar2 = createImg('svg/jogar.svg', 'Play');
+  jogar2.style('rotate','180g');
+  jogar2.position(width/2 - (width/8)/2 , height/2 - height/6 - (height/8)/2);
+  jogar2.size(width/8, height/8); 
+  pop();
+  
   //gamestate jogar
   //painel
   botaoinstrucoes = new Botao (width/2 + width/12, height/2 - width/30, botaoinstrucoessvg, width/20);
@@ -123,7 +131,7 @@ function setup() {
 
   //play
     playButton = createImg('svg/inicio.svg', 'Play');
-    playButton.position(width/2 - width/9, height/2 - (height/8)/2);
+    playButton.position(width/2 - width/7, height/2 - (height/8)/2);
     playButton.size(width/8, height/8);  
     playButton.mousePressed(play); 
 
@@ -151,8 +159,26 @@ function draw() {
   if (gamestate === "inicio") {
     inicioButton.exibir();
     jogar.hide();
+    jogar2.hide();
     playButton.hide();
     speedSlider.hide();
+
+    push();
+    imageMode(CENTER);
+    let proporcao = tecno.width / tecno.height;
+    let novaAltura = (width / 4) * 2 / proporcao;
+    let novaLargura = (width / 4) * 2; 
+    image(tecno, windowWidth/2 , windowHeight - windowHeight/4 , novaLargura, novaAltura);
+    pop();
+
+    push();
+    imageMode(CENTER);
+    let proporcao2 = tecno2.width / tecno2.height;
+    let novaAltura2 = (width / 4) * 2 / proporcao2;
+    let novaLargura2 = width / 4 * 2; 
+    image(tecno2, windowWidth/2 , windowHeight/4 , novaLargura2, novaAltura2);
+    pop();
+
   } else if (gamestate === "elementos") {
     botaoMelodia.exibir();
     botaoPercussao.exibir();
@@ -160,6 +186,7 @@ function draw() {
     botaoGraves.exibir();
 
     jogar.hide();
+    jogar2.hide();
     speedSlider.hide();
 
     //elementos
@@ -177,15 +204,24 @@ function draw() {
   }else if (gamestate === "instrucoes"){
     playButton.hide();
     jogar.show();
+    jogar2.show();
     speedSlider.hide();
     push();
     imageMode(CENTER);
-    image(instrucoes, width/2, height/2, width - width/4, height - height/5);
+    image(instrucoes, windowWidth/2 - (width/4) , windowHeight/2, width/2, height/1.6);
+    pop();
+
+    push();
+    imageMode(CENTER);
+    translate(windowWidth / 2 + (width/2) / 2, windowHeight / 2);
+    rotate(PI); 
+    image(instrucoes, 0, 0, width/2, height/1.6);
     pop();
   }else if (gamestate === "jogar") {
     playButton.show();
     speedSlider.show();
     jogar.hide();
+    jogar2.hide();
     push();
     imageMode(CENTER);
     image(fundogeralsvg, width/2, height/2, width/3, height/4);
@@ -202,8 +238,8 @@ function draw() {
   allSounds.forEach(sound => {
     sound.rate(playbackSpeed);
   });
-
 }
+
 //verificar toque 
 function verificar(button, x, y) {
   return x > button.position().x && x < button.position().x + button.width &&
@@ -222,6 +258,9 @@ function trocartext(){
 //------------- Play all sounds simultaneously with volume 0----
 function play() {
 
+  botaoCirculos[1].retirarCorNova();
+  botaoCirculos[3].retirarCorNova();
+  botaoCirculos[4].retirarCorNova();
   if (isPlaying) {
 
     baixos.forEach(sound => {
@@ -310,10 +349,9 @@ function touchStarted() {
   
   if (gamestate == "instrucoes" && verificar(jogar, x, y)) {
       gamestate ="jogar";
-      
   }else if (gamestate == "jogar" && fechar.contains(x, y)) {
     //sound.stop();
-    gamestate = "inicio";
+    location.reload();
 
   } else if (gamestate == "jogar" && botaoinstrucoes.contains(x, y)) {
     gamestate = "instrucoes";
@@ -397,6 +435,12 @@ class Botao {
         this.circulosSatelites[i].exibir();
       }
     }
+
+    retirarCorNova() {
+      for (let i = 0; i < this.numCirculosSatelites; i++) {
+        this.circulosSatelites[i].resetCor();
+      }
+    }
   
     verificarToque(px, py) {
       for (let i = 0; i < this.numCirculosSatelites; i++) {
@@ -442,17 +486,18 @@ class Botao {
   
     mudarCor() {  
       // Alterna entre a cor original e a nova cor apenas para o botão atual
-     // this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
+      this.corAtual = (this.corAtual === this.corOriginal) ? this.corNova : this.corOriginal;
   
       //som
       toggleVolume(this.array[this.numero-1]);
-      for (let i = 0; i < this.array.length; i++) {
-        if (i !== this.numero - 1) {
-          this.array[i].setVolume(0);
-        }
-      }
+      
   
       this.id = this.numero-1;
+    }
+
+    
+    resetCor() {
+      this.corAtual = this.corOriginal;
     }
   
     getId() {
