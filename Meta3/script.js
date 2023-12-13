@@ -26,6 +26,7 @@ let botaoinstrucoes, botaoinstrucoessvg, fechar, fecharsvg;
 let botaoCirculos = [];
 
 function preload() {
+
   //gamestate inicio
   iniciosvg = loadImage('svg/inicio.svg');
   tecno = loadImage('svg/techno.svg');
@@ -83,9 +84,12 @@ function preload() {
   allSounds.forEach(sound => {
     sound.setVolume(0);
   });
+  play();
+
 }
 
 function setup() {
+  
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
 
